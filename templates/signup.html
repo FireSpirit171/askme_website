@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <title>AskMe Website</title>
+</head>
+<body>
+    <!--Навигация--> 
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-sm-fluid container-lg">
+          <a href="./index.html" class="navbar-brand">AskMe</a>
+          <form class="d-flex" role="search" >
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">ASK!</button>
+          </form>
+
+           <div class="d-flex justify-content-between gap-3">
+            <a href="./login.html">log in</a>
+            <a href="./register.html">register</a>
+           </div>
+        </div>
+      </nav>
+
+      <main class="container-sm-fluid container-lg mt-2" style="margin-bottom: 100px;">
+        <h1>Registration</h1>
+        <div class="row mt-3">
+            <div class="col-8">
+                    <form>
+                        <!--Login--> 
+                        <div class="row mb-3 was-validated">
+                            <div class="col-2">
+                                Login
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" placeholder="Enter your login here" maxlength="50" required>
+                                    <div class="invalid-feedback">
+                                        The field must not be empty
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!--Email--> 
+                        <div class="row mb-3 was-validated">
+                            <div class="col-2">
+                                Email
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" placeholder="somebody@gmail.com" maxlength="50" required>
+                                    <div class="invalid-feedback">
+                                        The field must not be empty
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--NickName--> 
+                        <div class="row mb-3 was-validated">
+                            <div class="col-2">
+                                NickName
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" maxlength="50" required>
+                                    <div class="invalid-feedback">
+                                        This NickName is already taken. Please choose another.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Password--> 
+                        <div class="row mb-3 was-validated">
+                            <div class="col-2">
+                                Password
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group has-validation">
+                                    <input type="password" class="form-control" minlength="4" maxlength="12" required>
+                                    <div class="invalid-feedback">
+                                        The password must consist of Latin letters and numbers. Password length from 4 to 12 characters
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Repeat Password--> 
+                        <div class="row mb-3 was-validated">
+                            <div class="col-2">
+                                Password
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group has-validation">
+                                    <input type="password" class="form-control" minlength="4" maxlength="12" required>
+                                    <div class="invalid-feedback">
+                                        Password mismatch
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Avatar--> 
+                        <div class="row mb-3">
+                            <div class="col-2 text-align-center"> 
+                                Avatar
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group">
+                                    <input type="file" class="form-control">
+                                    <label class="input-group-text" for="inputGroupFile02">Choose</label>
+                                </div>                            
+                            </div>
+                        </div>
+
+
+    
+                        <div class="row mt-4">
+                            <div class="col-2"></div>
+                            <div class="col">
+                                <button class="btn btn-primary" type="submit" disabled>Register!</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+
+
+            <!--Теги--> 
+            <div class="col-3">
+                <h3>Popular Tags</h3>
+                <div class="row">
+                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">perl</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-danger">python</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">TechnoPark</a>
+                    </div>
+                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                    <a href="./tag.html" style="text-decoration: none;" class="text-danger">MySQL</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-success">Django</a>
+                    </div>
+                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">Mail.Ru</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">Voloshin</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-warning">Firefox</a>
+                    </div>
+                </div>
+                <h3 class="mt-4">Best Members</h3>
+                <div>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li><a href="./member.html">Mr. Freeman</a></li>
+                    <li><a href="./member.html">Dr. House</a></li>
+                    <li><a href="./member.html">Bender</a></li>
+                    <li><a href="./member.html">Queen Victoria</a></li>
+                    <li><a href="./member.html">V. Pupkin</a></li>
+                </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+
+      </main>
+
+      <footer class="fixed-bottom p-3 bg-light text-center">
+        <div class="container ">
+          <span class="text-muted">TechnoPark ©2024.</span>
+        </div>
+      </footer>
+
+    <script href="../static/js/bootstrap.bundle.js"></script>
+</body>
+</html>

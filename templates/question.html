@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/rounded_image.css">
+    <title>AskMe Website</title>
+</head>
+<body>
+    <!--Навигация--> 
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-sm-fluid container-lg">
+          <a href="./index.html" class="navbar-brand">AskMe</a>
+          <form class="d-flex" role="search" >
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">ASK!</button>
+          </form>
+
+           <div class="d-flex justify-content-between gap-3">
+            <a href="./login.html">log in</a>
+            <a href="./register.html">register</a>
+           </div>
+        </div>
+      </nav>
+
+      <main class="container-sm-fluid container-lg mt-3">
+        <div class="row">
+            <div class="col-7">
+                <!--Вопрос--> 
+                <div class="card mb-3 border-white">
+                    <div class="row g-0">
+                    <div class="col-2 p-2 py-3 mt-2">
+                        <div class="border w-100 mb-3 rounded-circle" style="height: 100px;">
+                            <img src="../static/img/default_user_icon.png" class="img-fluid" alt="...">
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <input type="number" value="5" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                        <h2>How to build a Moon Park?</h2>
+                        <p class="card-text fs-5" style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam necessitatibus repellendus iure voluptate eos, molestiae expedita fugit repellat possimus ratione quam, vel ullam accusamus earum? Eaque expedita sapiente magni reprehenderit?</p>
+                        <div class="row">
+                            <div class="col-8">
+                            <span>Tags:</span>
+                            <a href="./tag.html">black-jack</a>
+                            <a href="./tag.html">bender</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!--Ответы--> 
+                <div class="card mb-3">
+                    <div class="row g-0">
+                    <div class="col-2 p-2">
+                        <div class="border mb-3 rounded-image-container" style="height: 75px; width: 75px;">
+                        <img src="../static/img/default_user_icon.png" class="rounded-image">
+                        </div>
+                        <div class="input-group" style="width: 75px;">
+                        <input type="number" value="5" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam necessitatibus repellendus iure voluptate eos, molestiae expedita fugit repellat possimus ratione quam, vel ullam accusamus earum? Eaque expedita sapiente magni reprehenderit?</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <label class="form-check-label" for="flexCheckIndeterminate">
+                                    Correct!
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="row g-0">
+                    <div class="col-2 p-2">
+                        <div class="border mb-3 rounded-image-container" style="height: 75px; width: 75px;">
+                        <img src="../static/img/default_user_icon.png" class="rounded-image">
+                        </div>
+                        <div class="input-group" style="width: 75px;">
+                        <input type="number" value="3" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam necessitatibus repellendus iure voluptate eos, molestiae expedita fugit repellat possimus ratione quam, vel ullam accusamus earum? Eaque expedita sapiente magni reprehenderit?</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <label class="form-check-label" for="flexCheckIndeterminate">
+                                    Correct!
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <form action="#" style="margin-bottom: 100px;">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" style="height: 150px"></textarea>
+                        <label for="floatingTextarea2">Enter your answer here...</label>
+                      </div>
+
+                    <div class="col mt-3">
+                        <button class="btn btn-primary" type="submit" disabled>Answer!</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-1"></div>
+
+            <!--Теги--> 
+            <div class="col-4 mt-5">
+                <h3>Popular Tags</h3>
+                <div class="row">
+                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">perl</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-danger">python</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">TechnoPark</a>
+                    </div>
+                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                    <a href="./tag.html" style="text-decoration: none;" class="text-danger">MySQL</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-success">Django</a>
+                    </div>
+                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">Mail.Ru</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-black">Voloshin</a>
+                    <a href="./tag.html" style="text-decoration: none;" class="text-warning">Firefox</a>
+                    </div>
+                </div>
+                <h3 class="mt-4">Best Members</h3>
+                <div>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li><a href="./member.html">Mr. Freeman</a></li>
+                    <li><a href="./member.html">Dr. House</a></li>
+                    <li><a href="./member.html">Bender</a></li>
+                    <li><a href="./member.html">Queen Victoria</a></li>
+                    <li><a href="./member.html">V. Pupkin</a></li>
+                </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+      </main>
+
+      <footer class="fixed-bottom p-3 bg-light text-center">
+        <div class="container ">
+          <span class="text-muted">TechnoPark ©2024.</span>
+        </div>
+      </footer>
+
+    <script href="../static/js/bootstrap.bundle.js"></script>
+</body>
+</html>
