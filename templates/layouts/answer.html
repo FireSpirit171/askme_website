@@ -1,0 +1,27 @@
+{% load static %}
+
+<div class="card mb-3">
+    <div class="row g-0">
+    <div class="col-2 p-2">
+        <div class="border mb-3 rounded-image-container" style="height: 75px; width: 75px;">
+            <a href="/member.html"><img src="../static/img/default_user_icon.png" class="rounded-image"></a>
+        </div>
+        <div class="input-group" style="width: 75px;">
+        <input type="number" value="5" class="form-control">
+        </div>
+    </div>
+    <div class="col">
+        <div class="card-body">
+            <p class="card-text">
+                {{ answer.text }}
+            </p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="">
+                <label class="form-check-label" for="flexCheckIndeterminate">
+                    Correct!
+                </label>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

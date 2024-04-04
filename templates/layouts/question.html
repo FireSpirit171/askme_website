@@ -1,0 +1,30 @@
+{% load static %}
+
+<!--Карточка--> 
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-2 p-2">
+            <div class="border mb-3 rounded-image-container">
+              <a href="/member.html"><img src="{% static "img/default_user_icon.png" %}" class="rounded-image"></a>
+            </div>
+            <div class="input-group flex-nowrap" style="width: 105px;">
+              <input type="number" value="5" class="form-control">
+            </div>
+          </div>
+          <div class="col">
+            <div class="card-body">
+              <a href="/question.html">{{ question.title }}</a>
+              <p class="card-text">
+                {{ question.text }}
+              </p>
+              <div class="row">
+                <a class="col-4" href="/question.html">answer (3)</a>
+                <div class="col-8">
+                  <span>Tags</span>
+                  <a href="/tag.html">tag</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

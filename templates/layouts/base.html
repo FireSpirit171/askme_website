@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AskMe Website</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/rounded_image.css">
+  </head>
+  <body>
+    <!--Навигация--> 
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-sm-fluid container-lg">
+          <a class="navbar-brand">AskMe</a>
+          <form class="d-flex" role="search" >
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">ASK!</button>
+          </form>
+
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <img class="rounded-circle border" src="{% static 'img/default_user_icon.png' %}"  height="50" width="50">
+                </div>
+                <div class="d-flex justify-content-between gap-2">
+                    Dr.Pepper
+                    <div class="settings">
+                        <a href="/settings.html"><img src="../static/img/svg/gear.svg" width="20px"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </nav>
+
+    <!--Главная страница--> 
+    <main class="container-sm-fluid container-lg mt-3">
+
+        {% block content %}
+        {% endblock %}
+
+        <div class="col-1"></div>
+        <!--Теги--> 
+        <div class="col-3">
+          <h3>Popular Tags</h3>
+            <div class="row">
+              <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                <a href="/tag.html" style="text-decoration: none;" class="text-black">perl</a>
+                <a href="/tag.html" style="text-decoration: none;" class="text-danger">python</a>
+                <a href="/tag.html" style="text-decoration: none;" class="text-black">TechnoPark</a>
+              </div>
+              <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                <a href="/tag.html" style="text-decoration: none;" class="text-danger">MySQL</a>
+                <a href="/tag.html" style="text-decoration: none;" class="text-success">Django</a>
+              </div>
+              <div class="col d-flex justify-cotent-between gap-5 mb-1">
+                <a href="/tag.html" style="text-decoration: none;" class="text-black">Mail.Ru</a>
+                <a href="/tag.html" style="text-decoration: none;" class="text-black">Voloshin</a>
+                <a href="/tag.html" style="text-decoration: none;" class="text-warning">Firefox</a>
+              </div>
+            </div>
+          <h3 class="mt-4">Best Members</h3>
+          <div>
+            <ul style="list-style-type: none; padding: 0;">
+              <li><a href="/member.html">Mr. Freeman</a></li>
+              <li><a href="/member.html">Dr. House</a></li>
+              <li><a href="/member.html">Bender</a></li>
+              <li><a href="/member.html">Queen Victoria</a></li>
+              <li><a href="/member.html">V. Pupkin</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!--Страницы--> 
+      <nav aria-label="Page navigation example" style="margin-bottom: 100px;">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link" href="#">53</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </main>
+    <footer class="fixed-bottom p-3 bg-light text-center">
+      <div class="container ">
+        <span class="text-muted">TechnoPark ©2024.</span>
+      </div>
+    </footer>
+    <script src="../static/js/bootstrap.bundle.js"></script>
+  </body>
+</html>
