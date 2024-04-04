@@ -23,3 +23,5 @@ dist/
 
 #Игнор окружения
 askme_venv
+
+db.sqlite3
