@@ -21,6 +21,11 @@ from app import views
 urlpatterns = [
     path('', views.index, name = 'index'),
     path('hot/', views.hot, name = 'hot'),
-    path( 'tag/', views.tag, name = 'tag'),
-    path( 'questions/<int:question_id>', views.question, name = "question" )
+    path( 'tag/<str:tag>', views.tag, name = 'tag'),
+    path( 'questions/<int:question_id>', views.question, name = "question" ),
+    path( 'login/', views.login, name = 'login'),
+    path( 'signup/', views.sighup, name = 'signup' ),
+    path( 'member/<str:member>', views.member, name = 'member' ),
+    path( 'settings/', views.settings, name = 'settings' ),
+    path( 'ask/', views.ask, name = 'ask' )
 ]
