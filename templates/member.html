@@ -1,137 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/css/rounded_image.css">
-    <title>AskMe Website</title>
-</head>
-<body>
-    <!--Навигация--> 
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-sm-fluid container-lg">
-          <a href="../templates/index.html" class="navbar-brand">AskMe</a>
-          <form class="d-flex" role="search" >
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-success" type="submit">ASK!</button>
-          </form>
-          <div class="d-flex align-items-center gap-3">
-            <div>
-                <img class="rounded-circle border" src="../static/img/default_user_icon.png"  height="50" width="50">
-            </div>
-            <div class="d-flex justify-content-between gap-2">
-                Dr.Pepper
-                <div class="settings">
-                    <a href="/settings.html"><img src="../static/img/svg/gear.svg" width="20px"></a>
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-3">
+<h1>{{ member.login }} Profile</h1>
+<!--Форма--> 
+<div class="col-8 mt-3">
+    <form>
+        <fieldset disabled>
+            <!--Login--> 
+            <div class="row mb-3">
+                <div class="col-2">
+                    Login
                 </div>
-            </div>
-        </div>
-        </div>
-      </nav>
-
-      <main class="container-sm-fluid container-lg mt-3">
-        <div class="row">
-            <h1>User Profile</h1>
-            <!--Форма--> 
-            <div class="col-8 mt-3">
-                <form>
-                    <fieldset disabled>
-                        <!--Login--> 
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                Login
-                            </div>
-                            <div class="col-7">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="mr_freeman" maxlength="50" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--NickName--> 
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                NickName
-                            </div>
-                            <div class="col-7">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="Mr. Freeman" maxlength="50" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--Avatar--> 
-                        <div class="row mb-3">
-                            <div class="col-2"> 
-                                Avatar
-                            </div>
-                            <div class="col-7">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <img class="rounded-circle border" src="../static/img/default_user_icon.png" height="150" width="150">
-                                    </div>
-                                </div>                       
-                            </div>
-                        </div>
-
-                        <!--Total rate--> 
-                        <div class="row mb-3">
-                            <div class="col-2 align-self-center">
-                                <span>Total Rate</span>
-                            </div>
-                            <div class="col-3">
-                                <button type="button" class="btn btn-outline-danger" style="margin-left: 25px;">
-                                    <img src="../static/img/svg/fire.svg" width="20px" style="fill: red;">
-                                    15311
-                                </buttom>
-                            </div>
-                        </div>
-                        
-                    </fieldset>
-                </form>
-            </div>
-
-             <!--Теги--> 
-            <div class="col-4 mt-3">
-                <h3>Popular Tags</h3>
-                <div class="row">
-                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                    <a href="/tag.html" style="text-decoration: none;" class="text-black">perl</a>
-                    <a href="/tag.html" style="text-decoration: none;" class="text-danger">python</a>
-                    <a href="/tag.html" style="text-decoration: none;" class="text-black">TechnoPark</a>
-                    </div>
-                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                    <a href="/tag.html" style="text-decoration: none;" class="text-danger">MySQL</a>
-                    <a href="/tag.html" style="text-decoration: none;" class="text-success">Django</a>
-                    </div>
-                    <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                    <a href="/tag.html" style="text-decoration: none;" class="text-black">Mail.Ru</a>
-                    <a href="/tag.html" style="text-decoration: none;" class="text-black">Voloshin</a>
-                    <a href="/tag.html" style="text-decoration: none;" class="text-warning">Firefox</a>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value='default_login' maxlength="50" required>
                     </div>
                 </div>
-                <h3 class="mt-4">Best Members</h3>
-                <div>
-                <ul style="list-style-type: none; padding: 0;">
-                    <li><a href="/member.html">Mr. Freeman</a></li>
-                    <li><a href="/member.html">Dr. House</a></li>
-                    <li><a href="/member.html">Bender</a></li>
-                    <li><a href="/member.html">Queen Victoria</a></li>
-                    <li><a href="/member.html">V. Pupkin</a></li>
-                </ul>
+            </div>
+
+            <!--NickName--> 
+            <div class="row mb-3">
+                <div class="col-2">
+                    NickName
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value='default_nickname' maxlength="50" required>
+                    </div>
                 </div>
             </div>
-            </div>
-            </div>
-      </main>
 
-      <footer class="fixed-bottom p-3 bg-light text-center">
-        <div class="container ">
-          <span class="text-muted">TechnoPark ©2024.</span>
-        </div>
-      </footer>
+            <!--Avatar--> 
+            <div class="row mb-3">
+                <div class="col-2"> 
+                    Avatar
+                </div>
+                <div class="col-7">
+                    <div class="row">
+                        <div class="col-auto">
+                            <img class="rounded-circle border" src="../static/img/default_user_icon.png" height="150" width="150">
+                        </div>
+                    </div>                       
+                </div>
+            </div>
 
-    <script href="../static/js/bootstrap.bundle.js"></script>
-</body>
-</html>
+            <!--Total rate--> 
+            <div class="row mb-3">
+                <div class="col-2 align-self-center">
+                    <span>Total Rate</span>
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-outline-danger" style="margin-left: 25px;">
+                        <img src="../static/img/svg/fire.svg" width="20px" style="fill: red;">
+                        15311
+                    </buttom>
+                </div>
+            </div>
+            
+        </fieldset>
+    </form>
+</div>
+
+{% endblock content %}

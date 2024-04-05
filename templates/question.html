@@ -9,7 +9,7 @@
         <div class="row g-0">
         <div class="col-2 p-2 py-3 mt-2">
             <div class="border w-100 mb-3 rounded-circle">
-                <a href="/member.html"><img src="../static/img/default_user_icon.png" class="rounded-image"></a>
+                <a href="{% url "member" 'gtg' %}"><img src="../static/img/default_user_icon.png" class="rounded-image"></a>
             </div>
             <div class="input-group flex-nowrap">
                 <input type="number" value="5" class="form-control">
@@ -24,8 +24,13 @@
             <div class="row">
                 <div class="col-8">
                 <span>Tags:</span>
-                <a href="/tag.html">black-jack</a>
-                <a href="/tag.html">bender</a>
+
+                {% for tag in question.tags %}
+
+                <a href="{% url "tag" tag %}">{{ tag }}</a>
+
+                {% endfor %}
+
                 </div>
             </div>
             </div>

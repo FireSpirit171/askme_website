@@ -12,7 +12,7 @@
     <!--Навигация--> 
     <nav class="navbar bg-body-tertiary">
         <div class="container-sm-fluid container-lg">
-          <a class="navbar-brand">AskMe</a>
+          <a class="navbar-brand" href="{% url "index" %}">AskMe</a>
           <form class="d-flex" role="search" >
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-success" type="submit">ASK!</button>
@@ -25,7 +25,7 @@
                 <div class="d-flex justify-content-between gap-2">
                     Dr.Pepper
                     <div class="settings">
-                        <a href="/settings.html"><img src="../static/img/svg/gear.svg" width="20px"></a>
+                        <a href="{% url "settings" %}"><img src="../static/img/svg/gear.svg" width="20px"></a>
                     </div>
                 </div>
             </div>
@@ -44,42 +44,44 @@
           <h3>Popular Tags</h3>
             <div class="row">
               <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                <a href="/tag.html" style="text-decoration: none;" class="text-black">perl</a>
-                <a href="/tag.html" style="text-decoration: none;" class="text-danger">python</a>
-                <a href="/tag.html" style="text-decoration: none;" class="text-black">TechnoPark</a>
+                <a href="{% url "tag" 'perl' %}" style="text-decoration: none;" class="text-black">perl</a>
+                <a href="{% url "tag" 'python' %}" style="text-decoration: none;" class="text-danger">python</a>
+                <a href="{% url "tag" 'TechnoPark' %}" style="text-decoration: none;" class="text-black">TechnoPark</a>
               </div>
               <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                <a href="/tag.html" style="text-decoration: none;" class="text-danger">MySQL</a>
-                <a href="/tag.html" style="text-decoration: none;" class="text-success">Django</a>
+                <a href="{% url "tag" 'MySQL' %}" style="text-decoration: none;" class="text-danger">MySQL</a>
+                <a href="{% url "tag" 'Django' %}" style="text-decoration: none;" class="text-success">Django</a>
               </div>
               <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                <a href="/tag.html" style="text-decoration: none;" class="text-black">Mail.Ru</a>
-                <a href="/tag.html" style="text-decoration: none;" class="text-black">Voloshin</a>
-                <a href="/tag.html" style="text-decoration: none;" class="text-warning">Firefox</a>
+                <a href="{% url "tag" 'Mail.Ru' %}" style="text-decoration: none;" class="text-black">Mail.Ru</a>
+                <a href="{% url "tag" 'Voloshin' %}" style="text-decoration: none;" class="text-black">Voloshin</a>
+                <a href="{% url "tag" 'Firefox' %}" style="text-decoration: none;" class="text-warning">Firefox</a>
               </div>
             </div>
           <h3 class="mt-4">Best Members</h3>
           <div>
             <ul style="list-style-type: none; padding: 0;">
-              <li><a href="/member.html">Mr. Freeman</a></li>
-              <li><a href="/member.html">Dr. House</a></li>
-              <li><a href="/member.html">Bender</a></li>
-              <li><a href="/member.html">Queen Victoria</a></li>
-              <li><a href="/member.html">V. Pupkin</a></li>
+              <li><a href="{% url "member" 'Mr. Freeman' %}">Mr. Freeman</a></li>
+              <li><a href="{% url "member" 'Dr. House' %}">Dr. House</a></li>
+              <li><a href="{% url "member" 'Bender' %}">Bender</a></li>
+              <li><a href="{% url "member" 'Queen Victoria' %}">Queen Victoria</a></li>
+              <li><a href="{% url "member" 'V. Pupkin' %}">V. Pupkin</a></li>
             </ul>
           </div>
         </div>
       </div>
 
       <!--Страницы--> 
-      {% include "layouts/pagination.html" with page_obj=questions %}
+      {% if questions %}
+
+        {% include "layouts/pagination.html" with page_obj=questions %}
+
+      {% endif %}
 
     </main>
-    <footer class="fixed-bottom p-3 bg-light text-center">
-      <div class="container ">
-        <span class="text-muted">TechnoPark ©2024.</span>
-      </div>
-    </footer>
+    
+      {% include "layouts/footer.html" %}
+
     <script src="../static/js/bootstrap.bundle.js"></script>
   </body>
 </html>

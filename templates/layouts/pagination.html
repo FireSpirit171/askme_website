@@ -1,19 +1,25 @@
 <nav aria-label="Page navigation example" style="margin-bottom: 100px;">
-    <ul class="pagination">
+  <ul class="pagination">
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
+          <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">...</a></li>
-      <li class="page-item"><a class="page-link" href="#">53</a></li>
+      {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+      {% endfor %}
+      {% if page_obj.paginator.num_pages > page_obj.number|add:"3" %}
+          <li><span class="page-link">...</span></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+      {% endif %}
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
       </li>
-    </ul>
-  </nav>
+  </ul>
+</nav>

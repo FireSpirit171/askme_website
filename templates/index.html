@@ -7,7 +7,7 @@
 
     <div class="d-flex gap-5 align-items-center">
         <h1>New Questions</h1>
-        <a href="/hot.html">Hot questions</a>
+        <a href="{% url "hot" %}">Hot questions</a>
     </div>
 
     <!--Карточки--> 
@@ -15,7 +15,7 @@
 
       {% for question in questions %}
 
-        {% include "layouts/question.html" %}
+        {% include "layouts/question.html"%}
 
       {% endfor %}
 
