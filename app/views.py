@@ -1,33 +1,11 @@
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
+from app import models
+
 
 # Create your views here.
-
-QUESTIONS = [
-    {
-        "id": i,
-        "title" : f"Question {i}",
-        "text": f" This is question number {i}",
-        "tags": ['bla'*(i%4 + 1), 'be'*(i%3+1)],
-        "author_id": i%50
-    } for i in range(200)
-]
-
-ANSWERS = [
-    {
-        "text": f"Yes, I agree with you {i}",
-        "question_id": i%100
-    } for i in range(1000)
-]
-
-USERS = [
-    {
-        "id": i,
-        "login": f"Member{i}",
-        "nickname": f"chipichapa{i}"
-    } for i in range(50)
-]
 
 def paginate(request, items, num_items=5):
     page_num = request.GET.get('page', 1)
@@ -45,33 +23,41 @@ def paginate(request, items, num_items=5):
     return page_obj
 
 def index( request ):
-    page_obj = paginate(request, QUESTIONS )
+    questions = models.Question.objects.get_new()
+    page_obj = paginate(request, questions )
     return render( request, "index.html", {"questions": page_obj})
 
 def hot( request ):
-    questions = QUESTIONS[::-1]
+    questions = models.Question.objects.get_hot()
     page_obj = paginate(request, questions )
     return render( request, "hot.html", {"questions": page_obj})
 
-def tag( request, tag ):
-    questions = [q for q in QUESTIONS if tag in q['tags']]
+def tag( request, tag_name ):
+    tag = get_object_or_404(models.Tag, name=tag_name) 
+    questions = models.Question.objects.by_tag(tag_name).annotate(num_likes=Count('likequestion'))
     page_obj = paginate(request, questions )
     return render ( request, "tag.html", {"questions": page_obj, "tag": tag})
 
 def question( request, question_id ):
-    question = QUESTIONS[question_id]
-    answers = [answer for answer in ANSWERS if answer["question_id"]==question_id]
+    try:
+        question = models.Question.objects.annotate(num_likes=Count('likequestion')).get(id = question_id)
+        answers = models.Answer.objects.by_question(question_id)
+    except models.Question.DoesNotExist:
+        return get_object_or_404(models.User_profile, question=question_id)
     return render( request, "question.html", {"question": question, "answers":answers})
 
 def login( request ):
-    return render( request, "login.html" )
+    return render( request, "login.html", {} )
 
 def sighup( request ):
-    return render( request, "signup.html" )
+    return render( request, "signup.html", {} )
 
-def member( request, member ):
-    members = [u for u in USERS if u['nickname']==member]
-    return render(request, "member.html", {"member": member} )
+def member( request, member_name ):
+    try:
+        user_profile = models.User_profile.objects.annotate(num_likes=Count('likequestion', distinct=True) + Count('likeanswer', distinct=True)).get(nickname=member_name)
+    except models.User_profile.DoesNotExist:
+        return get_object_or_404(models.User_profile, nickname=member_name)
+    return render(request, "member.html", {"member": user_profile})
 
 def settings( request ):
     return render( request, "settings.html" )

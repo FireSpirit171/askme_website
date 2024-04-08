@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="row mt-3">
-<h1>{{ member.login }} Profile</h1>
+<h1>{{ member.user.username }}</h1>
 <!--Форма--> 
 <div class="col-8 mt-3">
     <form>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group">
-                        <input type="text" class="form-control" value='default_login' maxlength="50" required>
+                        <input type="text" class="form-control" value='{{ member.user.username }}' maxlength="50" required>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group">
-                        <input type="text" class="form-control" value='default_nickname' maxlength="50" required>
+                        <input type="text" class="form-control" value='{{ member.nickname }}' maxlength="50" required>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <div class="col-3">
                     <button type="button" class="btn btn-outline-danger" style="margin-left: 25px;">
                         <img src="../static/img/svg/fire.svg" width="20px" style="fill: red;">
-                        15311
+                        {{ member.num_likes }}
                     </buttom>
                 </div>
             </div>

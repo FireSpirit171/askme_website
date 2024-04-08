@@ -8,7 +8,7 @@
               <a href="{% url "member" 'gtg' %}"><img src="{% static "img/default_user_icon.png" %}" class="rounded-image"></a>
             </div>
             <div class="input-group flex-nowrap" style="width: 105px;">
-              <input type="number" value="5" class="form-control">
+              <input type="number" value="{{ question.num_likes }}" class="form-control">
             </div>
           </div>
           <div class="col">
@@ -22,7 +22,7 @@
                 <div class="col-8">
                   <span>Tags</span>
 
-                  {% for tag in question.tags %}
+                  {% for tag in question.tag.all %}
 
                     <a href="{% url "tag" tag %}">{{ tag }}</a>
 
