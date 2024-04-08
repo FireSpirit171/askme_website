@@ -38,7 +38,7 @@ def tag( request, tag_name ):
     page_obj = paginate(request, questions )
     return render ( request, "tag.html", {"questions": page_obj, "tag": tag})
 
-def question( request, question_id ):
+def question(request, question_id):
     try:
         question = models.Question.objects.annotate(num_likes=Count('likequestion')).get(id = question_id)
         answers = models.Answer.objects.by_question(question_id)
