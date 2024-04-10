@@ -47,9 +47,10 @@ def question(request, question_id):
     try:
         question = models.Question.objects.get_one_question(question_id)
         answers = models.Answer.objects.by_question(question_id)
+        page_obj = paginate( request, answers )
     except models.Question.DoesNotExist:
         return get_object_or_404(models.User_profile, question=question_id)
-    return render( request, "question.html", {"question": question, "answers":answers})
+    return render( request, "question.html", {"question": question, "answers":page_obj})
 
 
 

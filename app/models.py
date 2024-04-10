@@ -1,42 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
-from django.db.models import Sum, Case, When, IntegerField, Count
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
 class QuestionManager(models.Manager):
     def get_hot(self):
-        #questions = annotate_likes_question(Question.objects.all())
-        #return questions.order_by('-num_likes')
         return self.order_by('-num_likes')
 
     def get_new(self):
-        #questions = annotate_likes_question(Question.objects.all())
-        #return questions.order_by('-created_at')
         return self.order_by('-created_at')
-
     
     def by_tag(self, tag_name):
-        #questions = annotate_likes_question(Question.objects.filter(tag__name=tag_name))
         questions = Question.objects.filter(tag__name=tag_name)
         return questions
 
     def get_one_question(self, question_id):
-        #questions = annotate_likes_question(Question.objects.filter(id=question_id))
         questions = Question.objects.filter(id=question_id)
         return questions.get(id=question_id)
     
 class AnswerManager(models.Manager):
     def by_question(self, question_id):
-        #answers = annotate_likes_answer(Answer.objects.filter(question__id=question_id))
         answers = Answer.objects.filter(question__id=question_id)
         return answers.order_by('-num_likes')
-
-'''    
-class TagManager(models.Manager):
-    def popular_tags(self):
-        return self.order_by('created_at')
-'''
 
 class MemberManager(models.Manager):
     def get_member(self, member_name):
@@ -62,8 +48,6 @@ class Tag(models.Model):
     num_questions = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    #objects = TagManager()
 
     def __str__(self):
         return self.name
