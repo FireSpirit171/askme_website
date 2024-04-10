@@ -18,7 +18,7 @@
                 {{ question.text }}
               </p>
               <div class="row">
-                <a class="col-4" href="{% url "question" question.id %}">answer ({{ question.answer_count }})</a>
+                <a class="col-4" href="{% url "question" question.id %}">answers({{ question.num_answers }})</a>
                 <div class="col-8">
                   <span>Tags</span>
 
