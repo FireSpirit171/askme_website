@@ -1,7 +1,9 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Count
+from django.contrib.auth import authenticate, logout as logOut
+from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from app import models
+from app.forms import LoginForm
 
 
 # Create your views here.
@@ -54,9 +56,19 @@ def question(request, question_id):
 
 
 
-def login( request ):
-    return render( request, "login.html", {} )
+def login(request):
+    if request.method == 'POST':
+        login_form = LoginForm(data=request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data.get('username')
+            password = login_form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                return redirect(reverse('index'))
+    else:
+        login_form = LoginForm()
 
+    return render(request, "login.html", {"login_form": login_form})
 
 
 def sighup( request ):
@@ -77,3 +89,7 @@ def settings( request ):
 
 def ask( request ):
     return render( request, "ask.html" )
+
+def logout(request):
+    logOut(request)
+    return redirect(reverse('login'))

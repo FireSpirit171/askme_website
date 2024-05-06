@@ -7,7 +7,7 @@
     <h1>Settings: Dr. Pepper</h1>
     <!--Форма--> 
     <div class="col-8 mt-3">
-        <form style="margin-bottom: 50px;">
+        <form method="post" action="" style="margin-bottom: 50px;">
             <!--Login--> 
             <div class="row mb-3 was-validated">
                 <div class="col-2">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" value="dr_pepper" maxlength="50" required>
+                        <input id="login" name="login" type="text" class="form-control" value="dr_pepper" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Login
                         </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" value="dr.pepper@mail.ru" maxlength="50" required>
+                        <input id="email" name="email" type="text" class="form-control" value="dr.pepper@mail.ru" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Email
                         </div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" value="Dr. Pepper" maxlength="50" required>
+                        <input id="nickname" name="nickname" type="text" class="form-control" value="Dr. Pepper" maxlength="50" required>
                         <div class="invalid-feedback">
                             This NickName is already taken. Please choose another.
                         </div>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="input-group mt-3">
-                        <input type="file" class="form-control">
+                        <input id="avatar" name="avatar" type="file" class="form-control">
                         <label class="input-group-text" for="inputGroupFile02">Choose</label>
                     </div>                            
                 </div>
@@ -81,7 +81,7 @@
 
         <hr width="640px">
 
-        <!--Avatar--> 
+        <!--Выход из аккаунта--> 
         <div class="row mt-5" style="margin-bottom: 100px;">
             <div class="col-2">
                 Log out
