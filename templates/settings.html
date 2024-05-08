@@ -11,11 +11,11 @@
             <!--Login--> 
             <div class="row mb-3 was-validated">
                 <div class="col-2">
-                    Login
+                    Username
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="login" name="login" type="text" class="form-control" value="dr_pepper" maxlength="50" required>
+                        <input id="login" name="login" type="text" class="form-control" value="{{user.username}}" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Login
                         </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="email" name="email" type="text" class="form-control" value="dr.pepper@mail.ru" maxlength="50" required>
+                        <input id="email" name="email" type="text" class="form-control" value="{{user.email}}" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Email
                         </div>
@@ -45,7 +45,8 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="nickname" name="nickname" type="text" class="form-control" value="Dr. Pepper" maxlength="50" required>
+                        <input id="nickname" name="nickname" type="text" class="form-control" 
+                         value="{{user.nickname}}" maxlength="50" required>
                         <div class="invalid-feedback">
                             This NickName is already taken. Please choose another.
                         </div>
@@ -87,7 +88,10 @@
                 Log out
             </div>
             <div class="col">
-                <button class="btn btn-primary" type="submit" disabled>Log out!</button>
+                <form  method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Log out!</button>
+                </form>
             </div>
         </div>
     </div>

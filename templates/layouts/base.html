@@ -12,26 +12,40 @@
   <body>
     <!--Навигация--> 
     <nav class="navbar bg-body-tertiary">
-        <div class="container-sm-fluid container-lg">
-          <a class="navbar-brand" href="{% url "index" %}">AskMe</a>
-          <form class="d-flex" role="search" >
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-success" type="submit">ASK!</button>
-          </form>
+      <div class="container-sm-fluid container-lg">
+        <a class="navbar-brand" href="{% url "index" %}">AskMe</a>
+        <form class="d-flex" role="search" >
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success" type="submit">ASK!</button>
+        </form>
 
-            <div class="d-flex align-items-center gap-3">
-                <div>
-                    <img class="rounded-circle border" src="{% static 'img/default_user_icon.png' %}"  height="50" width="50">
-                </div>
-                <div class="d-flex justify-content-between gap-2">
-                    Dr.Pepper
-                    <div class="settings">
-                        <a href="{% url "settings" %}"><img src="../static/img/svg/gear.svg" width="20px"></a>
-                    </div>
-                </div>
+          {% if user.is_authenticated %}
+
+          <div class="d-flex align-items-center gap-3">
+              <div>
+                  <img class="rounded-circle border" src="{% static 'img/default_user_icon.png' %}"  height="50" width="50">
+              </div>
+              <div class="d-flex justify-content-between gap-2">
+                  {{user.username}}
+                  <div class="settings">
+                      <a href="{% url "settings" %}"><img src="../static/img/svg/gear.svg" width="20px"></a>
+                  </div>
+              </div>
+          </div>
+
+          {% else %}
+
+          <div class="d-flex align-items-center gap-3">
+            <div class="d-flex justify-content-between gap-2">
+                <a href="{% url "login" %}">log in</a>
+                <a href="{% url "signup" %}">sign up</a>
             </div>
         </div>
-      </nav>
+
+          {% endif %}
+
+      </div>
+    </nav>
 
     <!--Главная страница--> 
     <main class="container-sm-fluid container-lg mt-3">
