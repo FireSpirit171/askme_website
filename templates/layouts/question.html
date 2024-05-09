@@ -15,7 +15,7 @@
             <div class="card-body">
               <h5><a href="{% url "question" question.id %}">{{ question.title }}</a></h5>
               <p class="card-text">
-                {{ question.text }}
+                {{ question.text | truncatechars:400 | linebreaksbr}}
               </p>
               <div class="row">
                 <a class="col-4" href="{% url "question" question.id %}">answers({{ question.num_answers }})</a>

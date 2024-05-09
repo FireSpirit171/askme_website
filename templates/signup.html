@@ -6,100 +6,95 @@
 <h1>Registration</h1>
 <div class="row mt-3" style="margin-bottom: 100px;">
     <div class="col-8">
+        {% if form.errors %}
+            <div class="alert alert-danger col-9" role="alert" style="padding-bottom: 0px;">
+                {% if form.username.errors %} {{ form.username.errors }} {% endif %}
+                {% if form.email.errors %} {{ form.email.errors }} {% endif %}
+                {% if form.nickname.errors %} {{ form.nickname.errors }} {% endif %}
+                {% if form.password.errors %} {{ form.password.errors }} {% endif %}
+                {% if form.confirm_password.errors %} {{ form.confirm_password.errors }} {% endif %}
+            </div>
+        {% endif %}
+
         <form method="post" enctype="multipart/form-data"> 
             {% csrf_token %}
-            <div class="row mb-3 was-validated">
+            <!--Username-->
+            <div class="row mb-3">
                 <div class="col-2">
                     Username
                 </div>
                 <div class="col-7">
-                    <div class="input-group has-validation">
+                    <div class="input-group">
                         <input type="text" class="form-control" name="username"
                          placeholder="Enter your username here" maxlength="50"
-                         required >
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                                {{ error }} {% endfor %}
-                        </div>
+                         required {% if form.username.value %} value="{{form.username.value}}" {% endif %}>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-3 was-validated">
+            <!--Email-->
+            <div class="row mb-3">
                 <div class="col-2">
                     Email
                 </div>
                 <div class="col-7">
-                    <div class="input-group has-validation">
+                    <div class="input-group">
                         <input type="text" class="form-control" name="email"
                          placeholder="somebody@gmail.com" maxlength="50"
-                         required >
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                {{ error }} {% endfor %}
-                        </div>
+                         required {% if form.email.value %} value="{{form.email.value}}" {% endif %}>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-3 was-validated">
+            <!--NickName-->
+            <div class="row mb-3">
                 <div class="col-2">
                     NickName
                 </div>
                 <div class="col-7">
-                    <div class="input-group has-validation">
+                    <div class="input-group">
                         <input type="text" class="form-control" name="nickname"
-                         maxlength="50" required >
-                        <div class="invalid-feedback">
-                            {% for error in form.nickname.errors %}
-                                {{ error }} {% endfor %}
-                        </div>
+                         maxlength="50" required {% if form.nickname.value %} value="{{form.nickname.value}}" {% endif %}>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-3 was-validated">
+            <!--Password-->
+            <div class="row mb-3">
                 <div class="col-2">
                     Password
                 </div>
                 <div class="col-7">
-                    <div class="input-group has-validation">
+                    <div class="input-group">
                         <input type="password" class="form-control" name="password"
                          minlength="4" maxlength="12"
-                         required >
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                {{ error }} {% endfor %}
-                        </div>
+                         required {% if form.password.value %} value="{{form.password.value}}" {% endif %}>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-3 was-validated">
+            <!--Confirm password-->
+            <div class="row mb-3">
                 <div class="col-2">
                     Confirm password
                 </div>
                 <div class="col-7">
-                    <div class="input-group has-validation">
+                    <div class="input-group">
                         <input type="password" class="form-control" name="confirm_password"
                          minlength="4" maxlength="12"
-                         required >
-                        <div class="invalid-feedback">
-                            {% for error in form.confirm_password.errors %}
-                                {{ error }} {% endfor %}
-                        </div>
+                         required {% if form.confirm_password.value %} value="{{form.confirm_password.value}}" {% endif %}>
                     </div>
                 </div>
             </div>
 
+            <!--Avatar-->
             <div class="row mb-3">
                 <div class="col-2 text-align-center">
                     Avatar
                 </div>
                 <div class="col-7">
                     <div class="input-group">
-                        <input type="file" class="form-control" name="avatar"
-                         >
+                        <input type="file" class="form-control" name="avatar">
                         <label class="input-group-text" for="inputGroupFile02">Choose</label>
                     </div>
                 </div>
@@ -112,6 +107,6 @@
                 </div>
             </div>
         </form>
-        </div>
+    </div>
 
 {% endblock content %}

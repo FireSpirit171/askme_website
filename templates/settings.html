@@ -4,10 +4,22 @@
 {% block content %}
 
 <div class="row">
-    <h1>Settings: Dr. Pepper</h1>
+    <h1>Settings</h1>
     <!--Форма--> 
     <div class="col-8 mt-3">
+        {% if form.errors %}
+            <div class="alert alert-danger col-9" role="alert" style="padding-bottom: 0px;">
+                <ul>
+                    {% for errors in form.errors.values %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
         <form method="post" action="" style="margin-bottom: 50px;">
+            {% csrf_token %}
             <!--Login--> 
             <div class="row mb-3 was-validated">
                 <div class="col-2">
@@ -15,7 +27,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="login" name="login" type="text" class="form-control" value="{{user.username}}" maxlength="50" required>
+                        <input id="username" name="username" type="text" class="form-control" value="{{user.username}}" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Login
                         </div>
@@ -46,7 +58,7 @@
                 <div class="col-7">
                     <div class="input-group has-validation">
                         <input id="nickname" name="nickname" type="text" class="form-control" 
-                         value="{{user.nickname}}" maxlength="50" required>
+                         value="{{user_profile.nickname}}" maxlength="50" required>
                         <div class="invalid-feedback">
                             This NickName is already taken. Please choose another.
                         </div>
@@ -62,7 +74,11 @@
                 <div class="col-7">
                     <div class="row">
                         <div class="col-auto">
-                            <img class="rounded-circle border" src="../static/img/default_user_icon.png" height="150" width="150">
+                            <img class="rounded-circle border"
+                             {% if user_profile.avatar %} src="../../static/img/default_user_icon.png"
+                             {% else %} src="../../static/img/default_user_icon.png"
+                             {% endif %}
+                             height="150" width="150">
                         </div>
                     </div>
                     <div class="input-group mt-3">
@@ -75,7 +91,7 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                    <button class="btn btn-primary" type="submit" disabled>Save</button>
+                    <button id="saveButton" class="btn btn-primary" type="submit" disabled>Save</button>
                 </div>
             </div>
         </form>
@@ -95,6 +111,8 @@
             </div>
         </div>
     </div>
+
+    <script src="{% static 'js/editProfile.js' %}"></script>
 
 {% endblock content %}
 

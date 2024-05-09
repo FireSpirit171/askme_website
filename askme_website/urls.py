@@ -28,6 +28,6 @@ urlpatterns = [
     path( 'signup/', views.signup, name = 'signup' ),
     path( 'logout/', views.logout_view, name = 'logout' ),
     path( 'member/<str:member_name>', views.member, name = 'member' ),
-    path( 'settings/', views.settings, name = 'settings' ),
+    path( 'profile/edit/', views.settings, name = 'settings' ),
     path( 'ask/', views.ask, name = 'ask' )
 ]
