@@ -32,6 +32,7 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_password(self):
         password = self.cleaned_data.get("password")
+        self.cleaned_data['validated_password'] = password
         if len(password) < 8 or len(password) > 12:
             raise ValidationError("Password must be between 8 and 12 characters.")
         if not re.match(r'^[a-zA-Z0-9]+$', password):
@@ -39,11 +40,18 @@ class RegistrationForm(forms.ModelForm):
         return password
 
     def clean_confirm_password(self):
-        password = self.cleaned_data.get("password")
+        password = self.cleaned_data.get("validated_password")
         confirm_password = self.cleaned_data.get("confirm_password")
         if password != confirm_password:
             raise ValidationError("Passwords do not match.")
         return confirm_password
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
 
 
 class LoginForm(forms.Form):

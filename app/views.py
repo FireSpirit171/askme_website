@@ -46,15 +46,33 @@ def tag( request, tag_name ):
     return render ( request, "tag.html", {"questions": page_obj, "tag": tag})
 
 
+from django.shortcuts import redirect
 
 def question(request, question_id):
     try:
         question = Question.objects.get_one_question(question_id)
         answers = Answer.objects.by_question(question_id)
-        page_obj = paginate( request, answers )
+        page_obj = paginate(request, answers)
+
+        if request.method == "POST" and request.user.is_authenticated:
+            answer_text = request.POST.get('answer')
+            if answer_text:
+                question = get_object_or_404(Question, pk=question_id)
+                user_profile = request.user.user_profile
+                new_answer = Answer.objects.create(text=answer_text, author=user_profile, question=question)
+                question.num_answers += 1
+                question.save()
+                
+                # После создания ответа перенаправляем пользователя на страницу, на которой этот ответ будет отображаться
+                updated_answers = Answer.objects.by_question(question_id)  # Получаем обновленный список ответов
+                for index, answer in enumerate(updated_answers, start=1):
+                    if answer.text == new_answer.text and answer.created_at == new_answer.created_at:
+                        num_page = (index - 1) // page_obj.paginator.per_page + 1
+                        return redirect(f"/questions/{question_id}?page={num_page}")
+                
+        return render(request, "question.html", {"question": question, "answers": page_obj, "user": request.user if request.user.is_authenticated else None})
     except Question.DoesNotExist:
         return get_object_or_404(User_profile, question=question_id)
-    return render( request, "question.html", {"question": question, "answers":page_obj})
 
 
 
@@ -89,7 +107,7 @@ def signup(request):
             elif User.objects.filter(email=email).exists():
                 form.add_error('email', 'This email is already registered.')
             else:
-                user = User.objects.create_user(username=username, email=email, password=password)
+                user = form.save()
                 user_profile = User_profile.objects.create(user=user, nickname=nickname, avatar=avatar)
 
                 user = authenticate(username=username, password=password)
