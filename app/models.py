@@ -34,7 +34,7 @@ class MemberManager(models.Manager):
 
 class User_profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    avatar = models.ImageField(null=True, blank=True, upload_to='uploads/')
+    avatar = models.ImageField(null=True, blank=True, default="../static/img/default_user_icon.png")
     nickname = models.CharField(max_length=255)
     activity = models.IntegerField(default=0)
 

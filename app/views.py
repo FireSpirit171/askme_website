@@ -38,15 +38,11 @@ def hot( request ):
     return render( request, "hot.html", {"questions": page_obj})
 
 
-
 def tag( request, tag_name ):
     tag = get_object_or_404(Tag, name=tag_name) 
     questions = Question.objects.by_tag(tag_name)
     page_obj = paginate(request, questions )
     return render ( request, "tag.html", {"questions": page_obj, "tag": tag})
-
-
-from django.shortcuts import redirect
 
 def question(request, question_id):
     try:
@@ -107,6 +103,8 @@ def signup(request):
             elif User.objects.filter(email=email).exists():
                 form.add_error('email', 'This email is already registered.')
             else:
+                if not avatar:
+                    avatar = 'default_user_icon.png'
                 user = form.save()
                 user_profile = User_profile.objects.create(user=user, nickname=nickname, avatar=avatar)
 

@@ -8,8 +8,8 @@
     <div class="card mb-3 border-white">
         <div class="row g-0">
         <div class="col-2 p-2 py-3 mt-2">
-            <div class="border w-100 mb-3 rounded-circle">
-                <a href="{% url "member" question.author %}"><img src="{% static "img/default_user_icon.png" %}" class="rounded-image"></a>
+            <div class="border mb-3 rounded-image-container">
+                <a href="{% url "member" question.author %}"><img src="{{question.author.avatar.url}}" class="rounded-image"></a>
             </div>
             <div class="input-group flex-nowrap">
                 <input type="number" value="{{ question.num_likes }}" class="form-control">
