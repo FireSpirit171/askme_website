@@ -11,18 +11,17 @@
               <input type="text" value="{{ question.num_likes }}" class="form-control text-center" readonly>
             </div>
           
-            <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
-              <form method="post" action="{% url "like" question.id %}">
-                <button class="col-1 btn btn-outline-success like-btn">
-                  <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
-                </button>
-              </form>
-              <form method="post" action="{% url "dislike" question.id %}">
-                <button class="col-1 btn btn-outline-danger dislike-btn">
-                  <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
-                </button>
-              </form>
-            </div>
+            <form method="post" action="{% url "like" question.id %}">
+              <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
+                  <button class="col-1 btn btn-outline-success like-btn">
+                    <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
+                  </button>
+
+                  <button class="col-1 btn btn-outline-danger dislike-btn">
+                    <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
+                  </button>
+              </div>
+            </form>
             
           </div>
           <div class="col">
