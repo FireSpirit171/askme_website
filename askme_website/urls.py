@@ -31,7 +31,9 @@ urlpatterns = [
     path( 'logout/', views.logout_view, name = 'logout' ),
     path( 'member/<str:member_name>', views.member, name = 'member' ),
     path( 'profile/edit/', views.settings, name = 'settings' ),
-    path( 'ask/', views.ask, name = 'ask' )
+    path( 'ask/', views.ask, name = 'ask' ),
+    path( 'like', views.like, name='like' ),
+    path( 'dislike', views.dislike, name='dislike' )
 ]
 
 if settings.DEBUG:

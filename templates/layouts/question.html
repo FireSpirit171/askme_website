@@ -1,15 +1,29 @@
 {% load static %}
 
 <!--Карточка--> 
-      <div class="card mb-3">
+      <div id="{{question.id}}" class="card mb-3">
         <div class="row g-0">
           <div class="col-2 p-2">
             <div class="border mb-3 rounded-image-container">
               <a href="{% url "member" question.author %}"><img src="{{question.author.avatar.url}}" class="rounded-image"></a>
             </div>
-            <div class="input-group flex-nowrap" style="width: 105px;">
-              <input type="number" value="{{ question.num_likes }}" class="form-control">
+            <div class="input-group flex-nowrap like-counter" style="width: 100px; margin-bottom: 10px;">
+              <input type="text" value="{{ question.num_likes }}" class="form-control text-center" readonly>
             </div>
+          
+            <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
+              <form method="post" action="{% url "like" question.id %}">
+                <button class="col-1 btn btn-outline-success like-btn">
+                  <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
+                </button>
+              </form>
+              <form method="post" action="{% url "dislike" question.id %}">
+                <button class="col-1 btn btn-outline-danger dislike-btn">
+                  <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
+                </button>
+              </form>
+            </div>
+            
           </div>
           <div class="col">
             <div class="card-body">

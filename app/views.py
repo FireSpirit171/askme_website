@@ -180,3 +180,10 @@ def ask(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('index'))
+
+
+def like(request, question_id):
+    pass
+
+def dislike(request, question_id):
+    pass

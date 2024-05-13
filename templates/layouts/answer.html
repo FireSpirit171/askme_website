@@ -3,7 +3,7 @@
     <div class="row g-0">
     <div class="col-2 p-2">
         <div class="border mb-3 rounded-image-container" style="height: 75px; width: 75px;">
-            <a href="{% url "member" answer.author %}"><img src="../static/img/default_user_icon.png" class="rounded-image"></a>
+            <a href="{% url "member" answer.author %}"><img src="{{answer.author.avatar.url}}" class="rounded-image"></a>
         </div>
         <div class="input-group" style="width: 75px;">
         <input type="number" value="{{ answer.num_likes }}" class="form-control">

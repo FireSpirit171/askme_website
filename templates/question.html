@@ -11,9 +11,18 @@
             <div class="border mb-3 rounded-image-container">
                 <a href="{% url "member" question.author %}"><img src="{{question.author.avatar.url}}" class="rounded-image"></a>
             </div>
-            <div class="input-group flex-nowrap">
-                <input type="number" value="{{ question.num_likes }}" class="form-control">
+            <div class="input-group flex-nowrap like-counter" style="width: 100px; margin-bottom: 10px;">
+                <input type="text" value="{{ question.num_likes }}" class="form-control text-center" readonly>
             </div>
+
+            <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
+                <button class="col-1 btn btn-outline-success like-btn">
+                  <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
+                </button>
+                <button class="col-1 btn btn-outline-danger dislike-btn">
+                  <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
+                </button>
+              </div>
         </div>
         <div class="col">
             <div class="card-body">
