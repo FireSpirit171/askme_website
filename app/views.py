@@ -4,9 +4,11 @@ from django.db import transaction
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from app.models import Question, Answer, Tag, User_profile
+from app.models import Question, Answer, Tag, User_profile, LikeQuestion
 from app.forms import LoginForm, RegistrationForm, SettingsForm
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+import json
 
 
 def paginate(request, items, num_items=5):
@@ -183,7 +185,28 @@ def logout_view(request):
 
 
 def like(request, question_id):
-    pass
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        action = body.get('action')
+        question = get_object_or_404(Question, pk=question_id)
+        user = request.user.user_profile  # Предположим, что у вас есть аутентифицированный пользователь
 
-def dislike(request, question_id):
-    pass
+        status = ''
+        if action == 'like':
+            status = 'l'
+        elif action == 'dislike':
+            status = 'd'
+
+        like_question, created = LikeQuestion.objects.get_or_create(user=user, question=question)
+
+        like_question.status = status
+        like_question.save()
+
+        likes = question.likequestion_set.filter(status='l').count() - question.likequestion_set.filter(status='d').count()
+        question.num_likes = likes
+        question.save()
+
+        return JsonResponse({'likes': likes})
+
+    return JsonResponse({}, status=400)
+

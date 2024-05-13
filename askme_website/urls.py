@@ -33,7 +33,6 @@ urlpatterns = [
     path( 'profile/edit/', views.settings, name = 'settings' ),
     path( 'ask/', views.ask, name = 'ask' ),
     path( 'like/<int:question_id>', views.like, name='like' ),
-    path( 'dislike/<int:question_id>', views.dislike, name='dislike' )
 ]
 
 if settings.DEBUG:
