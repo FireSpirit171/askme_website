@@ -1,10 +1,11 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.db import transaction
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from app.models import Question, Answer, Tag, User_profile, LikeQuestion
+from app.models import Question, Answer, Tag, User_profile, LikeQuestion, LikeAnswer
 from app.forms import LoginForm, RegistrationForm, SettingsForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -183,13 +184,13 @@ def logout_view(request):
     logout(request)
     return redirect(reverse('index'))
 
-
-def like(request, question_id):
+@require_http_methods(["POST"])
+def like_question(request, question_id):
     if request.method == 'POST':
         body = json.loads(request.body)
         action = body.get('action')
         question = get_object_or_404(Question, pk=question_id)
-        user = request.user.user_profile  # Предположим, что у вас есть аутентифицированный пользователь
+        user = request.user.user_profile
 
         status = ''
         if action == 'like':
@@ -199,9 +200,14 @@ def like(request, question_id):
 
         like_question, created = LikeQuestion.objects.get_or_create(user=user, question=question)
 
+        if created:
+            user.activity += 1
+            user.save()
+
         like_question.status = status
         like_question.save()
 
+        #Обновляем лайки в вопросе
         likes = question.likequestion_set.filter(status='l').count() - question.likequestion_set.filter(status='d').count()
         question.num_likes = likes
         question.save()
@@ -210,3 +216,52 @@ def like(request, question_id):
 
     return JsonResponse({}, status=400)
 
+@require_http_methods(["POST"])
+def like_answer(request, answer_id):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        action = body.get('action')
+        answer = get_object_or_404(Answer, pk=answer_id)
+        user = request.user.user_profile
+
+        status = ''
+        if action == 'like':
+            status = 'l'
+        elif action == 'dislike':
+            status = 'd'
+
+        like_answer, created = LikeAnswer.objects.get_or_create(user=user, answer=answer)
+
+        if created:
+            user.activity += 1
+            user.save()
+
+        like_answer.status = status
+        like_answer.save()
+
+        #Обновляем лайки в ответе
+        likes = answer.likeanswer_set.filter(status='l').count() - answer.likeanswer_set.filter(status='d').count()
+        answer.num_likes = likes
+        answer.save()
+
+        return JsonResponse({'likes': likes})
+
+    return JsonResponse({}, status=400)
+
+@require_http_methods(["POST"])
+def correct_answer(request, answer_id):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        is_correct = body.get('is_correct')
+        answer = get_object_or_404(Answer, pk=answer_id)
+        user = request.user.user_profile  # Предположим, что у вас есть аутентифицированный пользователь
+        
+        # Проверяем, является ли пользователь автором вопроса
+        if answer.question.author == user:
+            answer.status = 'm' if is_correct else 'nm'
+            answer.save()
+            return JsonResponse({'status': answer.status})
+        
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    return JsonResponse({}, status=400)

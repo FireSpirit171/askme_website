@@ -32,7 +32,9 @@ urlpatterns = [
     path( 'member/<str:member_name>', views.member, name = 'member' ),
     path( 'profile/edit/', views.settings, name = 'settings' ),
     path( 'ask/', views.ask, name = 'ask' ),
-    path( 'like/<int:question_id>', views.like, name='like' ),
+    path( 'likequestion/<int:question_id>', views.like_question, name='like_question' ),
+    path( 'likeanswer/<int:answer_id>', views.like_answer, name='like_answer' ),
+    path( 'correctanswer/<int:answer_id>', views.correct_answer, name='correct_answer' )
 ]
 
 if settings.DEBUG:

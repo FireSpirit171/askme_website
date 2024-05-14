@@ -1,4 +1,4 @@
-function getCookie(name) {
+function getQuestionCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -14,23 +14,23 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const init = () => {
+const initQuestion = () => {
     const likeButtons = document.querySelectorAll('.like-btn');
     const dislikeButtons = document.querySelectorAll('.dislike-btn');
 
     likeButtons.forEach(button => {
-        button.addEventListener('click', () => handleLikeDislike(button.getAttribute('data-question-id'), 'like'));
+        button.addEventListener('click', () => handleLikeDislikeQuestion(button.getAttribute('data-question-id'), 'like'));
     });
 
     dislikeButtons.forEach(button => {
-        button.addEventListener('click', () => handleLikeDislike(button.getAttribute('data-question-id'), 'dislike'));
+        button.addEventListener('click', () => handleLikeDislikeQuestion(button.getAttribute('data-question-id'), 'dislike'));
     });
 }
 
-const handleLikeDislike = async (questionId, action) => {
+const handleLikeDislikeQuestion = async (questionId, action) => {
     try {
-        const csrftoken = getCookie('csrftoken');
-        const response = await fetch(`/like/${questionId}`, {
+        const csrftoken = getQuestionCookie('csrftoken');
+        const response = await fetch(`/likequestion/${questionId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,5 +58,5 @@ const handleLikeDislike = async (questionId, action) => {
     }
 }
 
-init();
+initQuestion();
 

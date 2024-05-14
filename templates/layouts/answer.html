@@ -1,40 +1,41 @@
 {% load static %}
-<div id="answer-{{ answer_id }}" class="card mb-3 border border-5 {% if answer.status == 'm' %} border-success {% endif %}">
+<div id="answer-{{ answer.id }}" class="card mb-3 border border-5 {% if answer.status == 'm' %} border-success {% endif %}">
     <div class="row g-0">
-    <div class="col-2 p-2">
-        <div class="border mb-3 rounded-image-container" style="height: 75px; width: 75px;">
-            <a href="{% url "member" answer.author %}"><img src="{{answer.author.avatar.url}}" class="rounded-image"></a>
-        </div>
-        <div class="input-group" style="width: 75px;">
-        <input type="number" value="{{ answer.num_likes }}" class="form-control">
-        </div>
-    </div>
-    <div class="col">
-        <div class="card-body">
-            <p class="card-text">
-                {{ answer.text }}
-            </p>
-            {% if answer.status == 'm' %}
-            <div class = "row p-3 mt-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked="">
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Correct!
-                    </label>
-                  </div>
+        <div class="col-2 p-2">
+            <div class="border mb-3 rounded-image-container" style="height: 75px; width: 75px;">
+                <a href="{% url "member" answer.author %}"><img src="{{ answer.author.avatar.url }}" class="rounded-image"></a>
             </div>
-            {% else %}
-            <div class = "row p-3 mt-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Correct!
-                    </label>
-                  </div>
+            <div class="input-group flex-nowrap like-counter" style="width: 75px; margin-bottom: 10px;">
+                <input type="text" id="like-counter-{{ answer.id }}" value="{{ answer.num_likes }}" class="form-control text-center" readonly>
             </div>
-            {% endif %}
+
+            <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 75px;">
+                <button type="submit" class="col-1 btn btn-outline-success like-btn-answer" data-action="like" data-answer-id="{{ answer.id }}" {% if not user.is_authenticated %} disabled {% endif %}>
+                    <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 15px; height:15px;">
+                </button>
+        
+                <button type="submit" class="col-1 btn btn-outline-danger dislike-btn-answer" data-action="dislike" data-answer-id="{{ answer.id }}" {% if not user.is_authenticated %} disabled {% endif %}>
+                    <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 15px; height:15px;">
+                </button>
+            </div>
         </div>
-    </div>
+        <div class="col">
+            <div class="card-body">
+                <p class="card-text">
+                    {{ answer.text }}
+                </p>
+                <div class="row p-3 mt-2">
+                    <div class="form-check">
+                        <input class="form-check-input correct-answer-checkbox" type="checkbox" value=""
+                         id="correct-answer-{{ answer.id }}" data-answer-id="{{ answer.id }}"
+                         {% if answer.status == 'm' %} checked {% endif %}
+                         {% if not answer.question.author == user.user_profile %} disabled {% endif %}>
+                        <label class="form-check-label" for="correct-answer-{{ answer.id }}">
+                            Correct!
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
