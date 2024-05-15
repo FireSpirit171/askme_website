@@ -14,7 +14,7 @@ function getAnswerCookie(name) {
     return cookieValue;
 }
 
-const init = () => {
+const initAnswer = () => {
     const likeButtons = document.querySelectorAll('.like-btn-answer');
     const dislikeButtons = document.querySelectorAll('.dislike-btn-answer');
 
@@ -44,19 +44,36 @@ const handleLikeDislikeAnswer = async (answerId, action) => {
         }
 
         const data = await response.json();
-        const likeCounter = document.querySelector(`#like-counter-${answerId}`);
+        const likeCounter = document.querySelector(`#answerlike-counter-${answerId}`);
         
         // Обновляем значение счетчика лайков на странице
         if (likeCounter) {
             likeCounter.value = data.likes;
         }
 
+        const likeButton = document.getElementById(`answerlikeButton-${answerId}`);
+        const dislikeButton = document.getElementById(`answerdislikeButton-${answerId}`);
 
-        // Ваш код для обновления данных на странице, например, обновление счетчика лайков
+        if (data.user_status === "l") {
+            likeButton.classList.remove('btn-outline-success');
+            likeButton.classList.add('btn-success');
+            dislikeButton.classList.remove('btn-danger');
+            dislikeButton.classList.add('btn-outline-danger');
+        } else if (data.user_status === "d") {
+            dislikeButton.classList.remove('btn-outline-danger');
+            dislikeButton.classList.add('btn-danger');
+            likeButton.classList.remove('btn-success');
+            likeButton.classList.add('btn-outline-success');
+        } else {
+            likeButton.classList.remove('btn-success');
+            likeButton.classList.add('btn-outline-success');
+            dislikeButton.classList.remove('btn-danger');
+            dislikeButton.classList.add('btn-outline-danger');
+        }
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
     }
 }
 
-init();
+document.addEventListener('DOMContentLoaded', initAnswer);
 

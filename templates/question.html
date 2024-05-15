@@ -16,12 +16,12 @@
               </div>
             
                 <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
-                    <button type="submit" class="col-1 btn btn-outline-success like-btn" data-action="like" data-question-id="{{ question.id }}"
+                    <button id="likeButton-{{question.id}}" type="submit" class="col-1 btn {% if like_question and like_question.status == 'l' %}btn-success{% else %}btn-outline-success{% endif %} like-btn" data-action="like" data-question-id="{{ question.id }}"
                      {% if not user.is_authenticated %} disabled {% endif %}>
                         <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
                     </button>
             
-                    <button type="submit" class="col-1 btn btn-outline-danger dislike-btn" data-action="dislike" data-question-id="{{ question.id }}"
+                    <button id="dislikeButton-{{question.id}}" type="submit" class="col-1 btn {% if like_question and like_question.status == 'd' %}btn-danger{% else %}btn-outline-danger{% endif %} dislike-btn" data-action="dislike" data-question-id="{{ question.id }}"
                     {% if not user.is_authenticated %} disabled {% endif %}>
                         <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
                     </button>

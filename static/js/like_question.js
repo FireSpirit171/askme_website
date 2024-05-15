@@ -4,7 +4,6 @@ function getQuestionCookie(name) {
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -46,17 +45,32 @@ const handleLikeDislikeQuestion = async (questionId, action) => {
         const data = await response.json();
         const likeCounter = document.querySelector(`#like-counter-${questionId}`);
         
-        // Обновляем значение счетчика лайков на странице
         if (likeCounter) {
             likeCounter.value = data.likes;
         }
 
+        const likeButton = document.getElementById(`likeButton-${questionId}`);
+        const dislikeButton = document.getElementById(`dislikeButton-${questionId}`);
 
-        // Ваш код для обновления данных на странице, например, обновление счетчика лайков
+        if (data.user_status === "l") {
+            likeButton.classList.remove('btn-outline-success');
+            likeButton.classList.add('btn-success');
+            dislikeButton.classList.remove('btn-danger');
+            dislikeButton.classList.add('btn-outline-danger');
+        } else if (data.user_status === "d") {
+            dislikeButton.classList.remove('btn-outline-danger');
+            dislikeButton.classList.add('btn-danger');
+            likeButton.classList.remove('btn-success');
+            likeButton.classList.add('btn-outline-success');
+        } else {
+            likeButton.classList.remove('btn-success');
+            likeButton.classList.add('btn-outline-success');
+            dislikeButton.classList.remove('btn-danger');
+            dislikeButton.classList.add('btn-outline-danger');
+        }
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
     }
 }
 
-initQuestion();
-
+document.addEventListener('DOMContentLoaded', initQuestion);
