@@ -103,7 +103,7 @@
             <div class="col-2">
                 Log out
             </div>
-            <div class="col" style="margin-bottom: 5px;">
+            <div class="col" style="margin-bottom: 200px;">
                 <form  method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button class="btn btn-primary" type="submit">Log out!</button>

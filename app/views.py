@@ -66,6 +66,8 @@ def question(request, question_id):
         question = Question.objects.get_one_question(question_id)
         answers = Answer.objects.by_question(question_id)
         page_obj = paginate(request, answers)
+        liked_answers = None
+        disliked_answers = None
         if request.user.is_authenticated:
             liked_answers = LikeAnswer.objects.filter(user=request.user.user_profile, status='l').values_list('answer_id', flat=True)
             disliked_answers = LikeAnswer.objects.filter(user=request.user.user_profile, status='d').values_list('answer_id', flat=True)
@@ -220,7 +222,6 @@ def like_question(request, question_id):
         question = get_object_or_404(Question, pk=question_id)
         user = request.user.user_profile
 
-        # Определяем статус на основе действия
         if action == 'like':
             status = 'l'
         elif action == 'dislike':
@@ -228,31 +229,25 @@ def like_question(request, question_id):
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
-        # Проверяем, существует ли уже лайк/дизлайк от этого пользователя
         like_question, created = LikeQuestion.objects.get_or_create(user=user, question=question)
 
         if created:
-            # Если запись была создана, увеличиваем активность пользователя
             user.activity += 1
             user.save()
         else:
-            # Если запись уже существует, проверяем текущий статус
             if like_question.status == status:
-                # Если статус совпадает, удаляем запись и уменьшаем активность пользователя
                 like_question.delete()
                 user.activity -= 1
                 user.save()
-                # Обновляем лайки в вопросе
+
                 likes = question.likequestion_set.filter(status='l').count() - question.likequestion_set.filter(status='d').count()
                 question.num_likes = likes
                 question.save()
                 return JsonResponse({'likes': likes, 'user_status': None})
         
-        # Обновляем статус и сохраняем запись
         like_question.status = status
         like_question.save()
 
-        # Обновляем лайки в вопросе
         likes = question.likequestion_set.filter(status='l').count() - question.likequestion_set.filter(status='d').count()
         question.num_likes = likes
         question.save()
@@ -270,7 +265,6 @@ def like_answer(request, answer_id):
         answer = get_object_or_404(Answer, pk=answer_id)
         user = request.user.user_profile
 
-        # Определяем статус на основе действия
         if action == 'like':
             status = 'l'
         elif action == 'dislike':
@@ -278,31 +272,25 @@ def like_answer(request, answer_id):
         else:
             return JsonResponse({'error': 'Invalid action'}, status=400)
 
-        # Проверяем, существует ли уже лайк/дизлайк от этого пользователя
         like_answer, created = LikeAnswer.objects.get_or_create(user=user, answer=answer)
 
         if created:
-            # Если запись была создана, увеличиваем активность пользователя
             user.activity += 1
             user.save()
         else:
-            # Если запись уже существует, проверяем текущий статус
             if like_answer.status == status:
-                # Если статус совпадает, удаляем запись и уменьшаем активность пользователя
                 like_answer.delete()
                 user.activity -= 1
                 user.save()
-                # Обновляем лайки в ответе
+
                 likes = answer.likeanswer_set.filter(status='l').count() - answer.likeanswer_set.filter(status='d').count()
                 answer.num_likes = likes
                 answer.save()
                 return JsonResponse({'likes': likes, 'user_status': None})
         
-        # Обновляем статус и сохраняем запись
         like_answer.status = status
         like_answer.save()
 
-        # Обновляем лайки в ответе
         likes = answer.likeanswer_set.filter(status='l').count() - answer.likeanswer_set.filter(status='d').count()
         answer.num_likes = likes
         answer.save()
