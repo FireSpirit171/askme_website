@@ -1,0 +1,198 @@
+Отдача статического документа напрямую через nginx;
+ab -n 100 http://127.0.0.1/static/css/bootstrap.css
+
+Server Software:        nginx/1.18.0
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /static/css/bootstrap.css
+Document Length:        281046 bytes
+
+Concurrency Level:      1
+Time taken for tests:   0.070 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      28138900 bytes
+HTML transferred:       28104600 bytes
+Requests per second:    1421.24 [#/sec] (mean)
+Time per request:       0.704 [ms] (mean)
+Time per request:       0.704 [ms] (mean, across all concurrent requests)
+Transfer rate:          390548.66 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     0    1   0.5      0       4
+Waiting:        0    0   0.2      0       1
+Total:          0    1   0.6      0       4
+
+Percentage of the requests served within a certain time (ms)
+  50%      0
+  66%      1
+  75%      1
+  80%      1
+  90%      1
+  95%      1
+  98%      3
+  99%      4
+ 100%      4 (longest request)
+//////////////////////////////////////////////////////
+
+Отдача статического документа напрямую через gunicorn
+
+
+Server Software:        gunicorn
+Server Hostname:        127.0.0.1
+Server Port:            8000
+
+Document Path:          /static/css/bootstrap.css
+Document Length:        281046 bytes
+
+Concurrency Level:      1
+Time taken for tests:   0.353 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      28141500 bytes
+HTML transferred:       28104600 bytes
+Requests per second:    283.12 [#/sec] (mean)
+Time per request:       3.532 [ms] (mean)
+Time per request:       3.532 [ms] (mean, across all concurrent requests)
+Transfer rate:          77807.54 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     2    3   2.7      3      25
+Waiting:        0    2   1.1      2       9
+Total:          2    3   2.8      3      25
+
+Percentage of the requests served within a certain time (ms)
+  50%      3
+  66%      3
+  75%      4
+  80%      4
+  90%      6
+  95%      8
+  98%     11
+  99%     25
+ 100%     25 (longest request)
+////////////////////////////////////////////////////////////
+
+Отдача динамического документа напрямую через gunicorn;
+ab -n 100 http://127.0.0.1:8000/
+
+Server Software:        gunicorn
+Server Hostname:        127.0.0.1
+Server Port:            8000
+
+Document Path:          /
+Document Length:        376178 bytes
+
+Concurrency Level:      1
+Time taken for tests:   66.927 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      37661100 bytes
+HTML transferred:       37617800 bytes
+Requests per second:    1.49 [#/sec] (mean)
+Time per request:       669.267 [ms] (mean)
+Time per request:       669.267 [ms] (mean, across all concurrent requests)
+Transfer rate:          549.53 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:   583  669  40.6    664     881
+Waiting:      579  663  40.4    659     872
+Total:        584  669  40.6    664     881
+
+Percentage of the requests served within a certain time (ms)
+  50%    664
+  66%    676
+  75%    684
+  80%    692
+  90%    708
+  95%    741
+  98%    776
+  99%    881
+ 100%    881 (longest request)
+/////////////////////////////////////////////////////////////////
+
+Отдача динамического документа через проксирование запроса с nginx на gunicorn;
+ab -n 100 http://127.0.0.1/
+
+Server Software:        nginx/1.18.0
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /
+Document Length:        376178 bytes
+
+Concurrency Level:      1
+Time taken for tests:   71.109 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      37664500 bytes
+HTML transferred:       37617800 bytes
+Requests per second:    1.41 [#/sec] (mean)
+Time per request:       711.087 [ms] (mean)
+Time per request:       711.087 [ms] (mean, across all concurrent requests)
+Transfer rate:          517.26 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:   593  711  41.0    711     849
+Waiting:      591  710  40.9    710     848
+Total:        593  711  41.0    711     850
+
+Percentage of the requests served within a certain time (ms)
+  50%    711
+  66%    726
+  75%    736
+  80%    742
+  90%    759
+  95%    771
+  98%    821
+  99%    850
+ 100%    850 (longest request)
+//////////////////////////////////////////////////////////////////////////
+
+Отдача динамического документа через проксирование запроса с nginx на gunicorn, при кэшировние ответа на nginx (proxy cache).
+ab -n 100 http://127.0.0.1/
+
+Server Software:        nginx/1.18.0
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /
+Document Length:        376051 bytes
+
+Concurrency Level:      1
+Time taken for tests:   0.880 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      37638201 bytes
+HTML transferred:       37605100 bytes
+Requests per second:    113.65 [#/sec] (mean)
+Time per request:       8.799 [ms] (mean)
+Time per request:       8.799 [ms] (mean, across all concurrent requests)
+Transfer rate:          41772.33 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.4      0       3
+Processing:     1    8  76.0      1     761
+Waiting:        0    8  75.3      0     754
+Total:          1    9  76.0      1     761
+
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      1
+  75%      1
+  80%      1
+  90%      2
+  95%      4
+  98%      8
+  99%    761
+ 100%    761 (longest request)
