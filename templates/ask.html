@@ -6,7 +6,8 @@
 <div class="row mt-3">
   <h1>New Question</h1>
     <div class="col-8 ">
-        <form class="was-validated" style="margin-bottom: 100px;">
+        <form method="post" action="" class="was-validated" style="margin-bottom: 100px;">
+            {% csrf_token %}
             <!--Title--> 
             <div class="row mb-3">
                 <div class="col-1">
@@ -14,7 +15,7 @@
                 </div>
                 <div class="col-10">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" maxlength="50" required>
+                        <input id="title" name="title" type="text" class="form-control" maxlength="50" required>
                         <div class="invalid-feedback">
                             Please ask your question.
                         </div>
@@ -29,7 +30,7 @@
                 </div>
                 <div class="col-10">
                     <div class="mb-3">
-                        <textarea class="form-control" maxlength="700" style="height: 250px;" required></textarea>
+                        <textarea id="text" name="text" class="form-control" style="height: 250px;" required></textarea>
                         <div class="invalid-feedback">
                           Please enter a message.
                         </div>
@@ -44,7 +45,7 @@
                 </div>
                 <div class="col-10">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" maxlength="100" required>
+                        <input id="tags" name="tags" type="text" class="form-control" maxlength="100" required>
                         <div class="invalid-feedback">
                             Please write some tags.
                         </div>
@@ -55,10 +56,11 @@
             <div class="row mt-3">
                 <div class="col-1"></div>
                 <div class="col">
-                    <button class="btn btn-primary" type="submit" disabled>ASK!</button>
+                    <button id="askButton" class="btn btn-primary" type="submit" disabled>ASK!</button>
                 </div>
             </div>
         </form>
     </div>
+    <script src="{% static 'js/ask.js' %}"></script>
 
 {% endblock content %}
