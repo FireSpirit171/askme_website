@@ -67,7 +67,7 @@
                 <div class="col-7">
                     <div class="input-group">
                         <input type="password" class="form-control" name="password"
-                         minlength="4" maxlength="12"
+                         minlength="8" maxlength="12"
                          required {% if form.password.value %} value="{{form.password.value}}" {% endif %}>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="col-7">
                     <div class="input-group">
                         <input type="password" class="form-control" name="confirm_password"
-                         minlength="4" maxlength="12"
+                         minlength="8" maxlength="12"
                          required {% if form.confirm_password.value %} value="{{form.confirm_password.value}}" {% endif %}>
                     </div>
                 </div>
@@ -94,8 +94,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group">
-                        <input type="file" class="form-control" name="avatar"
-                         required {% if form.avatar.value %} value="{{form.avatar.value}}" {% endif %}>
+                        <input type="file" class="form-control" name="avatar">
                         <label class="input-group-text" for="inputGroupFile02">Choose</label>
                     </div>
                 </div>
