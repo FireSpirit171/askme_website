@@ -11,7 +11,7 @@
     </div>
 
     <!--Карточки--> 
-    <article class="col-8 bg-light">
+    <article class="col-8">
 
       {% for question in questions %}
 
@@ -20,6 +20,8 @@
       {% endfor %}
 
     </article>
+
+    <script src="{% static 'js/like_question.js' %}"></script>
 
 {% endblock  %}
   

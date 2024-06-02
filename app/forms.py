@@ -46,6 +46,9 @@ class RegistrationForm(forms.ModelForm):
             raise ValidationError("Passwords do not match.")
         return confirm_password
     
+    def clean_avatar(self):
+        return self.cleaned_data.get("avatar")
+    
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])

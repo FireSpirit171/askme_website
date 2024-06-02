@@ -1,12 +1,15 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.db import transaction
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from app.models import Question, Answer, Tag, User_profile
+from app.models import Question, Answer, Tag, User_profile, LikeQuestion, LikeAnswer
 from app.forms import LoginForm, RegistrationForm, SettingsForm
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+import json
 
 
 def paginate(request, items, num_items=5):
@@ -27,7 +30,9 @@ def index(request):
     page_obj = paginate(request, questions )
     if request.user.is_authenticated:
         user_profile = User_profile.objects.get(user = request.user)
-        return render(request, "index.html", {"questions": page_obj, "user": request.user, "user_profile": user_profile})
+        liked_questions = LikeQuestion.objects.filter(user=user_profile, status='l').values_list('question_id', flat=True)
+        disliked_questions = LikeQuestion.objects.filter(user=user_profile, status='d').values_list('question_id', flat=True)
+        return render(request, "index.html", {"questions": page_obj, "user": request.user, "user_profile": user_profile, 'liked_questions': liked_questions, 'disliked_questions': disliked_questions})
     else:
         return render(request, "index.html", {"questions": page_obj})
 
@@ -35,24 +40,43 @@ def index(request):
 def hot( request ):
     questions = Question.objects.get_hot()
     page_obj = paginate(request, questions )
-    return render( request, "hot.html", {"questions": page_obj})
-
+    if request.user.is_authenticated:
+        user_profile = User_profile.objects.get(user = request.user)
+        liked_questions = LikeQuestion.objects.filter(user=user_profile, status='l').values_list('question_id', flat=True)
+        disliked_questions = LikeQuestion.objects.filter(user=user_profile, status='d').values_list('question_id', flat=True)
+        return render(request, "hot.html", {"questions": page_obj, "user": request.user, "user_profile": user_profile, 'liked_questions': liked_questions, 'disliked_questions': disliked_questions})
+    else:
+        return render( request, "hot.html", {"questions": page_obj})
 
 
 def tag( request, tag_name ):
     tag = get_object_or_404(Tag, name=tag_name) 
     questions = Question.objects.by_tag(tag_name)
     page_obj = paginate(request, questions )
-    return render ( request, "tag.html", {"questions": page_obj, "tag": tag})
-
-
-from django.shortcuts import redirect
+    if request.user.is_authenticated:
+        user_profile = User_profile.objects.get(user = request.user)
+        liked_questions = LikeQuestion.objects.filter(user=user_profile, status='l').values_list('question_id', flat=True)
+        disliked_questions = LikeQuestion.objects.filter(user=user_profile, status='d').values_list('question_id', flat=True)
+        return render ( request, "tag.html", {"questions": page_obj, "tag": tag, "user": request.user, "user_profile": user_profile, 'liked_questions': liked_questions, 'disliked_questions': disliked_questions})
+    else:
+        return render ( request, "tag.html", {"questions": page_obj, "tag": tag})
 
 def question(request, question_id):
     try:
         question = Question.objects.get_one_question(question_id)
         answers = Answer.objects.by_question(question_id)
         page_obj = paginate(request, answers)
+        liked_answers = None
+        disliked_answers = None
+        if request.user.is_authenticated:
+            liked_answers = LikeAnswer.objects.filter(user=request.user.user_profile, status='l').values_list('answer_id', flat=True)
+            disliked_answers = LikeAnswer.objects.filter(user=request.user.user_profile, status='d').values_list('answer_id', flat=True)
+        
+        if request.user.is_authenticated:
+            try:
+                like_question = LikeQuestion.objects.get(user = request.user.user_profile, question = question)
+            except:
+                like_question = None
 
         if request.method == "POST" and request.user.is_authenticated:
             answer_text = request.POST.get('answer')
@@ -70,7 +94,12 @@ def question(request, question_id):
                         num_page = (index - 1) // page_obj.paginator.per_page + 1
                         return redirect(f"/questions/{question_id}?page={num_page}")
                 
-        return render(request, "question.html", {"question": question, "answers": page_obj, "user": request.user if request.user.is_authenticated else None})
+        return render(request, "question.html", {"question": question, 
+                                                 "answers": page_obj, 
+                                                 "user": request.user if request.user.is_authenticated else None,
+                                                 'like_question': like_question if request.user.is_authenticated else None,
+                                                 'liked_answers': liked_answers,
+                                                 'disliked_answers': disliked_answers})
     except Question.DoesNotExist:
         return get_object_or_404(User_profile, question=question_id)
 
@@ -107,6 +136,8 @@ def signup(request):
             elif User.objects.filter(email=email).exists():
                 form.add_error('email', 'This email is already registered.')
             else:
+                if not avatar:
+                    avatar = 'default_user_icon.png'
                 user = form.save()
                 user_profile = User_profile.objects.create(user=user, nickname=nickname, avatar=avatar)
 
@@ -182,3 +213,106 @@ def ask(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('index'))
+
+@require_http_methods(["POST"])
+def like_question(request, question_id):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        action = body.get('action')
+        question = get_object_or_404(Question, pk=question_id)
+        user = request.user.user_profile
+
+        if action == 'like':
+            status = 'l'
+        elif action == 'dislike':
+            status = 'd'
+        else:
+            return JsonResponse({'error': 'Invalid action'}, status=400)
+
+        like_question, created = LikeQuestion.objects.get_or_create(user=user, question=question)
+
+        if created:
+            user.activity += 1
+            user.save()
+        else:
+            if like_question.status == status:
+                like_question.delete()
+                user.activity -= 1
+                user.save()
+
+                likes = question.likequestion_set.filter(status='l').count() - question.likequestion_set.filter(status='d').count()
+                question.num_likes = likes
+                question.save()
+                return JsonResponse({'likes': likes, 'user_status': None})
+        
+        like_question.status = status
+        like_question.save()
+
+        likes = question.likequestion_set.filter(status='l').count() - question.likequestion_set.filter(status='d').count()
+        question.num_likes = likes
+        question.save()
+
+        return JsonResponse({'likes': likes, 'user_status': status})
+
+    return JsonResponse({}, status=400)
+
+
+@require_http_methods(["POST"])
+def like_answer(request, answer_id):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        action = body.get('action')
+        answer = get_object_or_404(Answer, pk=answer_id)
+        user = request.user.user_profile
+
+        if action == 'like':
+            status = 'l'
+        elif action == 'dislike':
+            status = 'd'
+        else:
+            return JsonResponse({'error': 'Invalid action'}, status=400)
+
+        like_answer, created = LikeAnswer.objects.get_or_create(user=user, answer=answer)
+
+        if created:
+            user.activity += 1
+            user.save()
+        else:
+            if like_answer.status == status:
+                like_answer.delete()
+                user.activity -= 1
+                user.save()
+
+                likes = answer.likeanswer_set.filter(status='l').count() - answer.likeanswer_set.filter(status='d').count()
+                answer.num_likes = likes
+                answer.save()
+                return JsonResponse({'likes': likes, 'user_status': None})
+        
+        like_answer.status = status
+        like_answer.save()
+
+        likes = answer.likeanswer_set.filter(status='l').count() - answer.likeanswer_set.filter(status='d').count()
+        answer.num_likes = likes
+        answer.save()
+
+        return JsonResponse({'likes': likes, 'user_status': status})
+
+    return JsonResponse({}, status=400)
+
+@require_http_methods(["POST"])
+def correct_answer(request, answer_id):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        is_correct = body.get('is_correct')
+        answer = get_object_or_404(Answer, pk=answer_id)
+        user = request.user.user_profile  # Предположим, что у вас есть аутентифицированный пользователь
+        
+        # Проверяем, является ли пользователь автором вопроса
+        if answer.question.author == user:
+            answer.status = 'm' if is_correct else 'nm'
+            answer.save()
+            return JsonResponse({'status': answer.status})
+        
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    return JsonResponse({}, status=400)

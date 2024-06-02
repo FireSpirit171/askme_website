@@ -18,7 +18,7 @@
                 </ul>
             </div>
         {% endif %}
-        <form method="post" action="" style="margin-bottom: 50px;">
+        <form method="post" action="" enctype="multipart/form-data" style="margin-bottom: 0px;">
             {% csrf_token %}
             <!--Login--> 
             <div class="row mb-3 was-validated">
@@ -75,7 +75,7 @@
                     <div class="row">
                         <div class="col-auto">
                             <img class="rounded-circle border"
-                             {% if user_profile.avatar %} src="../../static/img/default_user_icon.png"
+                             {% if user_profile.avatar %} src="{{user_profile.avatar.url}}"
                              {% else %} src="../../static/img/default_user_icon.png"
                              {% endif %}
                              height="150" width="150">
@@ -91,7 +91,7 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                    <button id="saveButton" class="btn btn-primary" type="submit" disabled>Save</button>
+                    <button id="saveButton" class="btn btn-primary" type="submit" style="width: 85px" disabled>Save</button>
                 </div>
             </div>
         </form>
@@ -99,11 +99,11 @@
         <hr width="640px">
 
         <!--Выход из аккаунта--> 
-        <div class="row mt-5" style="margin-bottom: 100px;">
+        <div class="row">
             <div class="col-2">
                 Log out
             </div>
-            <div class="col">
+            <div class="col" style="margin-bottom: 200px;">
                 <form  method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button class="btn btn-primary" type="submit">Log out!</button>
