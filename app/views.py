@@ -137,7 +137,7 @@ def signup(request):
                 form.add_error('email', 'This email is already registered.')
             else:
                 if not avatar:
-                    avatar = 'default_user_icon.png'
+                    avatar = 'default_user_icon.png'  # <-- Установите значение по умолчанию здесь
                 user = form.save()
                 user_profile = User_profile.objects.create(user=user, nickname=nickname, avatar=avatar)
 
@@ -148,6 +148,7 @@ def signup(request):
     else:
         form = RegistrationForm()
     return render(request, 'signup.html', {'form': form})
+
 
 
 def member( request, member_name ):
