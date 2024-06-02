@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -44,28 +45,43 @@
           <h3>Popular Tags</h3>
             <div class="row">
               <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                <a href="{% url "tag" 'perl' %}" style="text-decoration: none;" class="text-black">perl</a>
-                <a href="{% url "tag" 'python' %}" style="text-decoration: none;" class="text-danger">python</a>
-                <a href="{% url "tag" 'TechnoPark' %}" style="text-decoration: none;" class="text-black">TechnoPark</a>
+
+                {% for tag in popular_tags|slice:":3" %}
+
+                <a href="{% url "tag" tag.name %}" style="text-decoration: none; font-weight: bold;" class="text-danger">{{ tag.name }}</a>
+
+                {% endfor %}
+
               </div>
               <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                <a href="{% url "tag" 'MySQL' %}" style="text-decoration: none;" class="text-danger">MySQL</a>
-                <a href="{% url "tag" 'Django' %}" style="text-decoration: none;" class="text-success">Django</a>
+
+                {% for tag in popular_tags|slice:"3:5" %}
+
+                <a href="{% url "tag" tag.name %}" style="text-decoration: none; font-weight: bold;" class="text-warning">{{ tag.name }}</a>
+
+                {% endfor %}
+
               </div>
               <div class="col d-flex justify-cotent-between gap-5 mb-1">
-                <a href="{% url "tag" 'Mail.Ru' %}" style="text-decoration: none;" class="text-black">Mail.Ru</a>
-                <a href="{% url "tag" 'Voloshin' %}" style="text-decoration: none;" class="text-black">Voloshin</a>
-                <a href="{% url "tag" 'Firefox' %}" style="text-decoration: none;" class="text-warning">Firefox</a>
+
+                {% for tag in popular_tags|slice:"5:" %}
+
+                <a href="{% url "tag" tag.name %}" style="text-decoration: none; font-weight: bold;" class="text-success">{{ tag.name }}</a>
+
+                {% endfor %}
+
               </div>
             </div>
           <h3 class="mt-4">Best Members</h3>
           <div>
             <ul style="list-style-type: none; padding: 0;">
-              <li><a href="{% url "member" 'Mr. Freeman' %}">Mr. Freeman</a></li>
-              <li><a href="{% url "member" 'Dr. House' %}">Dr. House</a></li>
-              <li><a href="{% url "member" 'Bender' %}">Bender</a></li>
-              <li><a href="{% url "member" 'Queen Victoria' %}">Queen Victoria</a></li>
-              <li><a href="{% url "member" 'V. Pupkin' %}">V. Pupkin</a></li>
+
+              {% for member in best_members %}
+
+                <li><a href="{% url "member" member.nickname %}">{{ member.nickname }}</a></li>
+
+              {% endfor %}
+
             </ul>
           </div>
         </div>

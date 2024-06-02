@@ -5,10 +5,10 @@
         <div class="row g-0">
           <div class="col-2 p-2">
             <div class="border mb-3 rounded-image-container">
-              <a href="{% url "member" 'gtg' %}"><img src="{% static "img/default_user_icon.png" %}" class="rounded-image"></a>
+              <a href="{% url "member" question.author %}"><img src="{% static "img/default_user_icon.png" %}" class="rounded-image"></a>
             </div>
             <div class="input-group flex-nowrap" style="width: 105px;">
-              <input type="number" value="5" class="form-control">
+              <input type="number" value="{{ question.num_likes }}" class="form-control">
             </div>
           </div>
           <div class="col">
@@ -18,11 +18,11 @@
                 {{ question.text }}
               </p>
               <div class="row">
-                <a class="col-4" href="{% url "question" question.id %}">answer (3)</a>
+                <a class="col-4" href="{% url "question" question.id %}">answers({{ question.num_answers }})</a>
                 <div class="col-8">
                   <span>Tags</span>
 
-                  {% for tag in question.tags %}
+                  {% for tag in question.tag.all %}
 
                     <a href="{% url "tag" tag %}">{{ tag }}</a>
 
