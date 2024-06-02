@@ -1,0 +1,43 @@
+upstream askme {    
+    server 127.0.0.1:8000;
+}
+
+server {
+    listen 80 default_server;
+    server_name askme.com;
+
+    root /home/ubuntu/askme_khodyrev;
+
+    access_log /var/log/nginx/askme_access.log;
+    error_log /var/log/nginx/askme_error.log;
+
+    # Обслуживание файлов из /uploads/
+    location ^~ /uploads/ {
+        expires max;
+        add_header Cache-Control "public";
+        gzip on;
+        gzip_types *;
+        gzip_proxied any;
+    }
+
+    # Обслуживание статических файлов с определенными расширениями
+    location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$ {
+        expires max;
+        add_header Cache-Control "public";
+        gzip on;
+        gzip_types *;
+        gzip_proxied any;
+    }
+
+    # Прокси всех остальных запросов к Gunicorn
+    location / {
+        proxy_pass http://askme;
+        proxy_set_header Host $host;
+
+        # Настройка кэширования
+        proxy_cache my_cache;
+        proxy_cache_valid 200 302 10m;
+        proxy_cache_use_stale error timeout updating invalid_header http_500 http_502 http_503 http_504;
+        add_header X-Proxy-Cache $upstream_cache_status;
+    }
+}
