@@ -4,30 +4,18 @@
 {% block content %}
 
 <div class="row">
-    <h1>Settings</h1>
+    <h1>Settings: Dr. Pepper</h1>
     <!--Форма--> 
     <div class="col-8 mt-3">
-        {% if form.errors %}
-            <div class="alert alert-danger col-9" role="alert" style="padding-bottom: 0px;">
-                <ul>
-                    {% for errors in form.errors.values %}
-                        {% for error in errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-        <form method="post" action="" enctype="multipart/form-data" style="margin-bottom: 0px;">
-            {% csrf_token %}
+        <form style="margin-bottom: 50px;">
             <!--Login--> 
             <div class="row mb-3 was-validated">
                 <div class="col-2">
-                    Username
+                    Login
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="username" name="username" type="text" class="form-control" value="{{user.username}}" maxlength="50" required>
+                        <input type="text" class="form-control" value="dr_pepper" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Login
                         </div>
@@ -42,7 +30,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="email" name="email" type="text" class="form-control" value="{{user.email}}" maxlength="50" required>
+                        <input type="text" class="form-control" value="dr.pepper@mail.ru" maxlength="50" required>
                         <div class="invalid-feedback">
                             Wrong Email
                         </div>
@@ -57,8 +45,7 @@
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input id="nickname" name="nickname" type="text" class="form-control" 
-                         value="{{user_profile.nickname}}" maxlength="50" required>
+                        <input type="text" class="form-control" value="Dr. Pepper" maxlength="50" required>
                         <div class="invalid-feedback">
                             This NickName is already taken. Please choose another.
                         </div>
@@ -74,15 +61,11 @@
                 <div class="col-7">
                     <div class="row">
                         <div class="col-auto">
-                            <img class="rounded-circle border"
-                             {% if user_profile.avatar %} src="{{user_profile.avatar.url}}"
-                             {% else %} src="../../static/img/default_user_icon.png"
-                             {% endif %}
-                             height="150" width="150">
+                            <img class="rounded-circle border" src="../static/img/default_user_icon.png" height="150" width="150">
                         </div>
                     </div>
                     <div class="input-group mt-3">
-                        <input id="avatar" name="avatar" type="file" class="form-control">
+                        <input type="file" class="form-control">
                         <label class="input-group-text" for="inputGroupFile02">Choose</label>
                     </div>                            
                 </div>
@@ -91,28 +74,23 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                    <button id="saveButton" class="btn btn-primary" type="submit" style="width: 85px" disabled>Save</button>
+                    <button class="btn btn-primary" type="submit" disabled>Save</button>
                 </div>
             </div>
         </form>
 
         <hr width="640px">
 
-        <!--Выход из аккаунта--> 
-        <div class="row">
+        <!--Avatar--> 
+        <div class="row mt-5" style="margin-bottom: 100px;">
             <div class="col-2">
                 Log out
             </div>
-            <div class="col" style="margin-bottom: 200px;">
-                <form  method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button class="btn btn-primary" type="submit">Log out!</button>
-                </form>
+            <div class="col">
+                <button class="btn btn-primary" type="submit" disabled>Log out!</button>
             </div>
         </div>
     </div>
-
-    <script src="{% static 'js/editProfile.js' %}"></script>
 
 {% endblock content %}
 

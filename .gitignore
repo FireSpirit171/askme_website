@@ -25,7 +25,3 @@ dist/
 askme_venv
 
 db.sqlite3
-
-mysettings.py
-
-uploads

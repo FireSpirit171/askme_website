@@ -1,42 +1,36 @@
 {% load static %}
 
-<!-- Карточка -->
-<div id="{{question.id}}" class="card mb-3">
-    <div class="row g-0">
-        <div class="col-2 p-2">
+<!--Карточка--> 
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-2 p-2">
             <div class="border mb-3 rounded-image-container">
-                <a href="{% url "member" question.author %}">
-                    <img src="{{ question.author.avatar.url }}" class="rounded-image">
-                </a>
+              <a href="{% url "member" 'gtg' %}"><img src="{% static "img/default_user_icon.png" %}" class="rounded-image"></a>
             </div>
-            <div class="input-group flex-nowrap like-counter" style="width: 100px; margin-bottom: 10px;">
-                <input type="text" id="like-counter-{{ question.id }}" value="{{ question.num_likes }}" class="form-control text-center" readonly>
+            <div class="input-group flex-nowrap" style="width: 105px;">
+              <input type="number" value="5" class="form-control">
             </div>
-            <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
-                <button id="likeButton-{{question.id}}" type="submit" class="col-1 btn {% if question.id in liked_questions %}btn-success{% else %}btn-outline-success{% endif %} like-btn" data-action="like" data-question-id="{{ question.id }}" {% if not user.is_authenticated %}disabled{% endif %}>
-                    <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
-                </button>
-                <button id="dislikeButton-{{question.id}}" type="submit" class="col-1 btn {% if question.id in disliked_questions %}btn-danger{% else %}btn-outline-danger{% endif %} dislike-btn" data-action="dislike" data-question-id="{{ question.id }}" {% if not user.is_authenticated %}disabled{% endif %}>
-                    <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
-                </button>
-            </div>
-        </div>
-        <div class="col">
+          </div>
+          <div class="col">
             <div class="card-body">
-                <h5><a href="{% url "question" question.id %}">{{ question.title }}</a></h5>
-                <p class="card-text">
-                    {{ question.text | truncatechars:400 | linebreaksbr }}
-                </p>
-                <div class="row">
-                    <a class="col-4" href="{% url "question" question.id %}">answers({{ question.num_answers }})</a>
-                    <div class="col-8">
-                        <span>Tags</span>
-                        {% for tag in question.tag.all %}
-                            <a href="{% url "tag" tag %}">{{ tag }}</a>
-                        {% endfor %}
-                    </div>
+              <h5><a href="{% url "question" question.id %}">{{ question.title }}</a></h5>
+              <p class="card-text">
+                {{ question.text }}
+              </p>
+              <div class="row">
+                <a class="col-4" href="{% url "question" question.id %}">answer (3)</a>
+                <div class="col-8">
+                  <span>Tags</span>
+
+                  {% for tag in question.tags %}
+
+                    <a href="{% url "tag" tag %}">{{ tag }}</a>
+
+                  {% endfor %}
+
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
