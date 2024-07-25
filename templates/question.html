@@ -3,31 +3,43 @@
 
 {% block content  %}
 <div class="row">
-    <div class="col-7">
+    <div class="col-8">
     <!--Вопрос--> 
     <div class="card mb-3 border-white">
         <div class="row g-0">
         <div class="col-2 p-2 py-3 mt-2">
-            <div class="border w-100 mb-3 rounded-circle">
-                <a href="{% url "member" 'gtg' %}"><img src="../static/img/default_user_icon.png" class="rounded-image"></a>
+            <div class="border mb-3 rounded-image-container">
+                <a href="{% url "member" question.author %}"><img src="{{question.author.avatar.url}}" class="rounded-image"></a>
             </div>
-            <div class="input-group flex-nowrap">
-                <input type="number" value="5" class="form-control">
-            </div>
+            <div class="input-group flex-nowrap like-counter" style="width: 100px; margin-bottom: 10px;">
+                <input type="text" id="like-counter-{{ question.id }}" value="{{ question.num_likes }}" class="form-control text-center" readonly>
+              </div>
+            
+                <div class="btn-group" role="group" aria-label="Basic outlined example" style="width: 100px;">
+                    <button id="likeButton-{{question.id}}" type="submit" class="col-1 btn {% if like_question and like_question.status == 'l' %}btn-success{% else %}btn-outline-success{% endif %} like-btn" data-action="like" data-question-id="{{ question.id }}"
+                     {% if not user.is_authenticated %} disabled {% endif %}>
+                        <img src="{% static 'img/like.png' %}" alt="Like" class="like-icon" style="width: 20px; height:20px;">
+                    </button>
+            
+                    <button id="dislikeButton-{{question.id}}" type="submit" class="col-1 btn {% if like_question and like_question.status == 'd' %}btn-danger{% else %}btn-outline-danger{% endif %} dislike-btn" data-action="dislike" data-question-id="{{ question.id }}"
+                    {% if not user.is_authenticated %} disabled {% endif %}>
+                        <img src="{% static 'img/dislike.png' %}" alt="Dislike" class="dislike-icon" style="width: 20px; height:20px;">
+                    </button>
+                </div>
         </div>
         <div class="col">
             <div class="card-body">
             <h2>{{ question.title }}</h2>
             <p class="card-text fs-5" style="text-align: justify;">
-                {{ question.text }}
+                {{ question.text | linebreaksbr}}
             </p>
             <div class="row">
                 <div class="col-8">
                 <span>Tags:</span>
 
-                {% for tag in question.tags %}
+                {% for tag in question.tag.all %}
 
-                <a href="{% url "tag" tag %}">{{ tag }}</a>
+                    <a href="{% url 'tag' tag %}">{{ tag }}</a>
 
                 {% endfor %}
 
@@ -41,25 +53,40 @@
     <hr>
 
     <!--Ответы--> 
-    {% for answer in answers %}
-    
-        {% include "layouts/answer.html" %}
-    
-    {% endfor %}
+    {% if answers %}
 
-    <hr>
+        {% for answer in answers %}
 
-    <form action="#" style="margin-bottom: 100px;">
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" style="height: 150px"></textarea>
-            <label for="floatingTextarea2">Enter your answer here...</label>
-        </div>
+            {% include "layouts/answer.html" with answer_id=answer.id %}
 
-        <div class="col mt-3">
-            <button class="btn btn-primary" type="submit" disabled>Answer!</button>
-        </div>
+        {% endfor %}
 
-    </form>
+        {% include "layouts/pagination.html" with page_obj=answers %}
+        
+    {% endif %}
+
+    {% if user %}
+        <hr>
+        <form method="post" action="" style="margin-bottom: 100px;">
+            {% csrf_token %}
+            <div class="form-floating">
+                <textarea id="answer" name="answer" class="form-control" placeholder="Leave a comment here" style="height: 150px"></textarea>
+                <label for="floatingTextarea2">Enter your answer here...</label>
+            </div>
+            <div class="col mt-3">
+                <button id="answerButton" class="btn btn-primary" type="submit" disabled>Answer!</button>
+            </div>
+        </form>
+    {% else %}
+        <h4 style="margin-bottom: 100px;"><i>To leave your comment, please log in</i></h4>
+    {% endif %}
+
+
     </div>
+
+    <script src="{% static 'js/answer.js' %}"></script>
+    <script src="{% static 'js/like_question.js' %}"></script>
+    <script src="{% static 'js/like_answer.js' %}"></script>
+    <script src="{% static 'js/correct_answer.js' %}"></script>
 
 {% endblock  %}

@@ -6,33 +6,41 @@
 <h1>Log In</h1>
 <div class="row mt-4">
     <div class="col-8">
-        <form class="was-validated">
+        {% if login_form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in login_form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" action="" class="was-validated">
+            {% csrf_token %}
             <!--Login--> 
             <div class="row mb-3">
                 <div class="col-2">
-                    Login
+                    Username
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" placeholder="Enter your login here" maxlength="50" required>
-                        <div class="invalid-feedback">
-                            No such Login
-                        </div>
+                        <input id="usernameInput" name="username" type="text"
+                         class="form-control" placeholder="Enter your login here" maxlength="50"
+                         required value="{{ login_form.data.username }}">
+                        
                     </div>
                 </div>
             </div>
 
-            <!--Email--> 
+            <!--Password--> 
             <div class="row mb-3">
                 <div class="col-2">
                     Password
                 </div>
                 <div class="col-7">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control" maxlength="50" required>
-                        <div class="invalid-feedback">
-                            Wrong Password
-                        </div>
+                        <input id="passwordInput" name="password" type="password"
+                         class="form-control" placeholder="Enter your password" maxlength="50"
+                          required value="{{ login_form.data.password }}">
                     </div>
                 </div>
             </div>
@@ -40,17 +48,19 @@
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                    <button class="btn btn-primary" type="submit" disabled>Log in!</button>
+                    <button class="btn btn-primary" type="submit">Log in!</button>
                 </div>
             </div>
         </form>
 
         <div class="row mt-4">
-            <div class="col-2"></div>
+            <div class="col-2" style="margin-bottom: 500px"></div>
             <div class="col">
                 <a href="{% url "signup" %}">create new account</a>
             </div>
         </div>
     </div>
+
+    <script src="{% static 'js/login.js' %}"></script>
 
 {% endblock  %}

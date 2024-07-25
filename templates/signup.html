@@ -4,106 +4,109 @@
 {% block content %}
 
 <h1>Registration</h1>
-<div class="row mt-3">
+<div class="row mt-3" style="margin-bottom: 100px;">
     <div class="col-8">
-            <form>
-                <!--Login--> 
-                <div class="row mb-3 was-validated">
-                    <div class="col-2">
-                        Login
-                    </div>
-                    <div class="col-7">
-                        <div class="input-group has-validation">
-                            <input type="text" class="form-control" placeholder="Enter your login here" maxlength="50" required>
-                            <div class="invalid-feedback">
-                                The field must not be empty
-                            </div>
-                        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger col-9" role="alert" style="padding-bottom: 0px;">
+                {% if form.username.errors %} {{ form.username.errors }} {% endif %}
+                {% if form.email.errors %} {{ form.email.errors }} {% endif %}
+                {% if form.nickname.errors %} {{ form.nickname.errors }} {% endif %}
+                {% if form.password.errors %} {{ form.password.errors }} {% endif %}
+                {% if form.confirm_password.errors %} {{ form.confirm_password.errors }} {% endif %}
+            </div>
+        {% endif %}
+
+        <form method="post" action="" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <!--Username-->
+            <div class="row mb-3">
+                <div class="col-2">
+                    Username
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="username"
+                         placeholder="Enter your username here" maxlength="50"
+                         required {% if form.username.value %} value="{{form.username.value}}" {% endif %}>
                     </div>
                 </div>
+            </div>
 
-                <!--Email--> 
-                <div class="row mb-3 was-validated">
-                    <div class="col-2">
-                        Email
-                    </div>
-                    <div class="col-7">
-                        <div class="input-group has-validation">
-                            <input type="text" class="form-control" placeholder="somebody@gmail.com" maxlength="50" required>
-                            <div class="invalid-feedback">
-                                The field must not be empty
-                            </div>
-                        </div>
+            <!--Email-->
+            <div class="row mb-3">
+                <div class="col-2">
+                    Email
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="email"
+                         placeholder="somebody@gmail.com" maxlength="50"
+                         required {% if form.email.value %} value="{{form.email.value}}" {% endif %}>
                     </div>
                 </div>
+            </div>
 
-                <!--NickName--> 
-                <div class="row mb-3 was-validated">
-                    <div class="col-2">
-                        NickName
-                    </div>
-                    <div class="col-7">
-                        <div class="input-group has-validation">
-                            <input type="text" class="form-control" maxlength="50" required>
-                            <div class="invalid-feedback">
-                                This NickName is already taken. Please choose another.
-                            </div>
-                        </div>
+            <!--NickName-->
+            <div class="row mb-3">
+                <div class="col-2">
+                    NickName
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="nickname"
+                         maxlength="50" required {% if form.nickname.value %} value="{{form.nickname.value}}" {% endif %}>
                     </div>
                 </div>
+            </div>
 
-                <!--Password--> 
-                <div class="row mb-3 was-validated">
-                    <div class="col-2">
-                        Password
-                    </div>
-                    <div class="col-7">
-                        <div class="input-group has-validation">
-                            <input type="password" class="form-control" minlength="4" maxlength="12" required>
-                            <div class="invalid-feedback">
-                                The password must consist of Latin letters and numbers. Password length from 4 to 12 characters
-                            </div>
-                        </div>
+            <!--Password-->
+            <div class="row mb-3">
+                <div class="col-2">
+                    Password
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password"
+                         minlength="8" maxlength="12"
+                         required {% if form.password.value %} value="{{form.password.value}}" {% endif %}>
                     </div>
                 </div>
+            </div>
 
-                <!--Repeat Password--> 
-                <div class="row mb-3 was-validated">
-                    <div class="col-2">
-                        Password
-                    </div>
-                    <div class="col-7">
-                        <div class="input-group has-validation">
-                            <input type="password" class="form-control" minlength="4" maxlength="12" required>
-                            <div class="invalid-feedback">
-                                Password mismatch
-                            </div>
-                        </div>
+            <!--Confirm password-->
+            <div class="row mb-3">
+                <div class="col-2">
+                    Confirm password
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="confirm_password"
+                         minlength="8" maxlength="12"
+                         required {% if form.confirm_password.value %} value="{{form.confirm_password.value}}" {% endif %}>
                     </div>
                 </div>
+            </div>
 
-                <!--Avatar--> 
-                <div class="row mb-3">
-                    <div class="col-2 text-align-center"> 
-                        Avatar
-                    </div>
-                    <div class="col-7">
-                        <div class="input-group">
-                            <input type="file" class="form-control">
-                            <label class="input-group-text" for="inputGroupFile02">Choose</label>
-                        </div>                            
+            <!--Avatar-->
+            <div class="row mb-3">
+                <div class="col-2 text-align-center">
+                    Avatar
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <input type="file" class="form-control" name="avatar">
+                        <label class="input-group-text" for="inputGroupFile02">Choose</label>
                     </div>
                 </div>
+            </div>
 
-
-
-                <div class="row mt-4">
-                    <div class="col-2"></div>
-                    <div class="col">
-                        <button class="btn btn-primary" type="submit" disabled>Register!</button>
-                    </div>
+            <div class="row mt-4" style="margin-bottom: 200px;">
+                <div class="col-2"></div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Register!</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
 
 {% endblock content %}
